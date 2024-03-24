@@ -313,13 +313,9 @@
 <li>使用MQA是个更好的选择，比单一的KV矩阵有更高的精度，比一个多头存一个KV矩阵消耗更少的空间</li>
 </ol>
 <h2 id="三、代码"><a href="#三、代码" class="headerlink" title="三、代码"></a>三、代码</h2><h3 id="model-py"><a href="#model-py" class="headerlink" title="model.py"></a>model.py</h3><ol>
-<li><p>RMSNorm层公式:</p>
-<script type="math/tex; mode=display">\text{output} = x \times \frac{1}{\sqrt{\text{mean}(x^2, \text{axis}=-1) + \epsilon}}</script><p>假设输入张量x的形状为(batch_size, sequence_length, feature_dim)，最后根号内生成的是一个二维张量，形状为(batch_size, sequence_length)，这里是对每一个feature赋一个权重。</p>
-</li>
-<li><p>ROPE:</p>
-</li>
-<li><p>Swish激活函数：</p>
-<script type="math/tex; mode=display">\text{Swish}(x) = x \cdot \sigma(\beta \cdot x)</script><script type="math/tex; mode=display">\sigma(x) = \frac{1}{1 + e^{-x}}</script></li>
+<li>RMSNorm层公式:<script type="math/tex; mode=display">\text{output} = x \times \frac{1}{\sqrt{\text{mean}(x^2, \text{axis}=-1) + \epsilon}}</script>假设输入张量x的形状为(batch_size, sequence_length, feature_dim)，最后根号内生成的是一个二维张量，形状为(batch_size, sequence_length)，这里是对每一个feature赋一个权重。</li>
+<li>ROPE:</li>
+<li>Swish激活函数:<script type="math/tex; mode=display">\text{Swish}(x) = x \cdot \sigma(\beta \cdot x)</script><script type="math/tex; mode=display">\sigma(x) = \frac{1}{1 + e^{-x}}</script></li>
 </ol>
 
       
@@ -460,10 +456,8 @@
 <pre><code>视频地址：https://www.bilibili.com/video/BV1Yb411a7ty/?spm_id_from=333.337.search-card.all.click
 </code></pre><p>然后，我们就可以基于视频中所用的模版进一步优化完善自己的界面，主要是关于(_config.yml)文件的修改，这里我基本上没有再查找别的资料，而是直接问chatgpt逐步完善了功能，例如：头像，评论等等。<br>这里就提一个要点，修改都要在(source)文件下进行修改，然后通过git bash提交上去。最开始我很傻的修改了(.deploy_git)，结果发现在(git bash)上执行(hexo g)命令以后没有被提交上去。</p>
 <h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ol>
-<li><p>如果出现了这种报错<br>FATAL Something’s wrong. Maybe you can find the solution here: <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">https://hexo.io/docs/troubleshooting.html</a><br>Error: Spawn failed<br> at ChildProcess.<anonymous> (/Users/xiangxiangyongan/blog/node_modules/_hexo-util@1.5.0@hexo-util/lib/spawn.js:51:21)<br> at ChildProcess.emit (events.js:210:5)<br> at Process.ChildProcess._handle.onexit (internal/child_process.js:272:12)<br> <code>参考网址：https://blog.csdn.net/qq_45020818/article/details/126949337</code></p>
-</li>
-<li><p>如果markdown上用latex的代码无法被(generate)<br><code>文章地址：https://blog.51cto.com/AomanHao/6185050</code><br>注意我们这里用的是(yilia)的主题，如果用的是其他主题，请参考其他主题对应的方法，因为不同模版主题中的(_config.yml)文件不同</p>
-</li>
+<li>如果出现了这种报错<br>FATAL Something’s wrong. Maybe you can find the solution here: <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">https://hexo.io/docs/troubleshooting.html</a><br>Error: Spawn failed<br> at ChildProcess.<anonymous> (/Users/xiangxiangyongan/blog/node_modules/_hexo-util@1.5.0@hexo-util/lib/spawn.js:51:21)<br> at ChildProcess.emit (events.js:210:5)<br> at Process.ChildProcess._handle.onexit (internal/child_process.js:272:12)<br> <code>参考网址：https://blog.csdn.net/qq_45020818/article/details/126949337</code></li>
+<li>如果markdown上用latex的代码无法被(generate)<br><code>文章地址：https://blog.51cto.com/AomanHao/6185050</code><br>注意我们这里用的是(yilia)的主题，如果用的是其他主题，请参考其他主题对应的方法，因为不同模版主题中的(_config.yml)文件不同</li>
 </ol>
 <p>未完待续~~~</p>
 
