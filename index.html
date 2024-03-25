@@ -236,7 +236,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="主流服务器"><a href="#主流服务器" class="headerlink" title="主流服务器"></a>主流服务器</h2><p>推荐autoDL，onethingAI，相对来说比较便宜，而且环境也容易配置。</p>
+        <h2 id="主流服务器"><a href="#主流服务器" class="headerlink" title="主流服务器"></a>主流服务器</h2><p>推荐autoDL，onethingAI，相对来说比较便宜，而且环境也容易配置。相比之下，colab需要梯子，虽然免费，但想有高一点的算力，colab也是要花钱买gpu的。</p>
 
       
 
@@ -304,7 +304,7 @@
 </code></pre><h3 id="网络课程和文章"><a href="#网络课程和文章" class="headerlink" title="网络课程和文章"></a>网络课程和文章</h3><pre><code>课程地址：https://www.bilibili.com/video/BV12h4y1N7C8/?spm_id_from=333.337.search-card.all.click&amp;vd_source=cd8ea6c3c8b0bf72de553b1586baad87
 知乎文章：https://zhuanlan.zhihu.com/p/649756898
 </code></pre><h3 id="学习群聊"><a href="#学习群聊" class="headerlink" title="学习群聊"></a>学习群聊</h3><pre><code>qq:716455397 baby-llama2-chinese
-</code></pre><h2 id="二、知识要点"><a href="#二、知识要点" class="headerlink" title="二、知识要点"></a>二、知识要点</h2><ol>
+</code></pre><h2 id="二、知识要点"><a href="#二、知识要点" class="headerlink" title="二、知识要点"></a>二、知识要点</h2><h3 id="训练阶段"><a href="#训练阶段" class="headerlink" title="训练阶段"></a>训练阶段</h3><ol>
 <li>在normal上的操作与transformer不同，llama2用的是RMSNorm方法（注意这里是对整个句子规范化，不是对一个词向量进行规范化）<br>为什么要规范化？</li>
 <li>linear层产生多头注意力Q,K,V矩阵</li>
 <li>ROPE 操作： 通过绝对位置编码的方式实现了相对位置编码<br>绝对位置编码—&gt;旋转位置编码<br>具体证明和介绍的文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/642884818">https://zhuanlan.zhihu.com/p/642884818</a>   涉及到的都是基本矩阵和复变函数知识</li>
@@ -316,6 +316,9 @@
 <li>RMSNorm层公式:<script type="math/tex; mode=display">\text{output} = x \times \frac{1}{\sqrt{\text{mean}(x^2, \text{axis}=-1) + \epsilon}}</script>假设输入张量x的形状为(batch_size, sequence_length, feature_dim)，最后根号内生成的是一个二维张量，形状为(batch_size, sequence_length)，这里是对每一个feature赋一个权重。</li>
 <li>ROPE:</li>
 <li>Swish激活函数:<script type="math/tex; mode=display">\text{Swish}(x) = x \cdot \sigma(\beta \cdot x)</script><script type="math/tex; mode=display">\sigma(x) = \frac{1}{1 + e^{-x}}</script></li>
+</ol>
+<h2 id="四、融会贯通"><a href="#四、融会贯通" class="headerlink" title="四、融会贯通"></a>四、融会贯通</h2><ol>
+<li>关于为什么主流大模型都使用decoder-only而非encoder-decoder框架？<br>参考文章链接:<br><code>https://kexue.fm/archives/9529 (苏神)</code><br><code>https://www.zhihu.com/question/588325646 (知乎问答)</code></li>
 </ol>
 
       
