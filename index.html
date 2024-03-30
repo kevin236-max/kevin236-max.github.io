@@ -377,10 +377,12 @@
 <h3 id="预训练阶段"><a href="#预训练阶段" class="headerlink" title="预训练阶段"></a>预训练阶段</h3><ol>
 <li>梯度裁剪和梯度缩放</li>
 </ol>
-<h3 id="微调阶段"><a href="#微调阶段" class="headerlink" title="微调阶段"></a>微调阶段</h3><ol>
+<h3 id="微调阶段"><a href="#微调阶段" class="headerlink" title="微调阶段"></a>微调阶段</h3><h4 id="高效模型微调"><a href="#高效模型微调" class="headerlink" title="高效模型微调"></a>高效模型微调</h4><ol>
 <li>LoRA<br>参考文章：<code>https://zhuanlan.zhihu.com/p/644360231</code><br>通过调整秩(r)和缩放系数(alpha)的大小，将W用两个低秩矩阵表示，只调整这两个低秩矩阵，不调整预训练的参数矩阵<br>两个矩阵一个用高斯函数初始化，一个用零矩阵初始化<br>lora_dropout的参数设置不能忽略，随机丢弃神经元提升小矩阵的泛化能力</li>
 <li>AdaLoRA<br>参考文章：<code>https://zhuanlan.zhihu.com/p/667432109</code><br>需要补充的知识点：幺正矩阵性质，SVD算法(笔者还没有完全搞清楚这些性质的证明过程)<br>主要是要注意三元组的问题，为什么这里只需要管P矩阵的第i行，一维向量lambda的第i个值，Q矩阵的第i列 -&gt; 这里幺正矩阵的条件决定了它们之间的关系是固定的<br>注意损失函数里面需要添加的正则化项<br>在SVD中，特征的重要性取决于它对应的奇异值的绝对值的大小</li>
 <li>QLoRA<br>参考文章：<code>https://zhuanlan.zhihu.com/p/676998456</code> 这篇文章将数据放缩的基本知识讲得很清楚<br>注意是对每一个块进行一个缩放，存储一个缩放系数<br>主要包含三项技术：（1）新的数据类型 4-bit NormalFloat（NF4）；（2）双重量化（Double Quantization）；（3）分页优化器（Paged Optimizers）</li>
+</ol>
+<h4 id="模型上下文窗口扩展"><a href="#模型上下文窗口扩展" class="headerlink" title="模型上下文窗口扩展"></a>模型上下文窗口扩展</h4><ol>
 <li>ALiBi<br>参考文章：<code>https://zhuanlan.zhihu.com/p/656684326</code> <code>https://spaces.ac.cn/archives/9431</code><br>提升位置编码的外推能力</li>
 </ol>
 <h2 id="三、代码"><a href="#三、代码" class="headerlink" title="三、代码"></a>三、代码</h2><p>这里参考的是baby-llama2-chinese-main的代码文件，源码部分只有生成阶段的部分代码</p>
@@ -863,21 +865,5 @@ MathJax.Hub.Queue(function() {
 
 </div>
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
