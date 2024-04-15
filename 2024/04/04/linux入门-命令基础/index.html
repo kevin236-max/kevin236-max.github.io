@@ -16,7 +16,7 @@
 <meta property="og:description" content="基础内容 命令基础格式command [-option] [parameter]command: 命令本身-options: [可选] 命令的一些选项，可以通过选项控制命令的行为细节parameter: [可选] 命令的参数，多数用于命令的指向目标等 命令行自动在用户home目录上，也就是—&gt;&#x2F;home&#x2F;用户名 ls命令:ls [-a -l -h] [Linux路径].开头的文件是Linux">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-04-04T10:00:20.000Z">
-<meta property="article:modified_time" content="2024-04-15T03:36:57.911Z">
+<meta property="article:modified_time" content="2024-04-15T03:51:28.979Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -195,13 +195,7 @@
 <p>wc [-c -m -l -w] 文件路径<br>-c统计bytes数量 -m统计字符数量 -l统计行数 -w统计单词数量<br>文件路径表示被统计的文件，可作为内容输入</p>
 <p>管道符: |<br>将管道符左边命令的结果作为右边命令的输入<br>eg: cat abc.txt | grep kevin   这里grep最后一个文件路径就填的左边的输出结果</p>
 </li>
-<li>echo 输出的内容<br>表示要输出的内容，带有空格或\的特殊符号，建议使用双引号包围<br>反引号``包围的内容将被作为命令执行<br>重定向符: &gt;和&gt;&gt;<blockquote>
-<p>将左侧命令的结果，覆盖写入到符号右侧指定的文件中</p>
-<blockquote>
-<p>将左侧命令的结果，追加写入到符号右侧指定的文件中</p>
-</blockquote>
-</blockquote>
-</li>
+<li>echo 输出的内容<br>表示要输出的内容，带有空格或\的特殊符号，建议使用双引号包围<br>反引号``包围的内容将被作为命令执行<br>重定向符: &gt;和&gt;&gt;<br>/&gt; 将左侧命令的结果，覆盖写入到符号右侧指定的文件中<br>/&gt;&gt; 将左侧命令的结果，追加写入到符号右侧指定的文件中</li>
 <li>tail [-f -num] Linux路径  可以查看文件尾部内容<br>-f 表示持续跟踪，持续跟踪文件最新更改<br>-num 表示查看尾部多少行，不填默认10行</li>
 <li>vi 文件路径/vim 文件路径</li>
 <li>su - [用户名]<br>-符号是可选的，表示是否在切换用户后加载环境变量，建议带上<br>切换用户后，使用exit命令退回上一个用户，也可以ctrl+d<br>sudo 临时赋予root权限</li>
