@@ -152,19 +152,88 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-linux入门-命令基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Linux入门-配置网络" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2024/04/04/linux%E5%85%A5%E9%97%A8-%E5%91%BD%E4%BB%A4%E5%9F%BA%E7%A1%80/">linux入门-命令基础</a>
+      <a class="article-title" href="/2024/04/15/Linux%E5%85%A5%E9%97%A8-%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/">Linux入门-配置网络</a>
     </h1>
   
 
         
-        <a href="/2024/04/04/linux%E5%85%A5%E9%97%A8-%E5%91%BD%E4%BB%A4%E5%9F%BA%E7%A1%80/" class="archive-article-date">
+        <a href="/2024/04/15/Linux%E5%85%A5%E9%97%A8-%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/" class="archive-article-date">
+  	<time datetime="2024-04-15T03:36:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这里目前主要参考的是书本《Linux就该这么学》，不过里面部分细节如果对计算机网络不是足够了解，很多内容会看不懂，需要对书本中讲解的部分内容延伸出来做些知识补充，以下是一些需要学习的内容。</p>
+<h3 id="基础内容"><a href="#基础内容" class="headerlink" title="基础内容"></a>基础内容</h3><p>1.在虚拟机中设置桥接<br>一般来说，在导入虚拟机iso文件的时候网卡（网络适配器）不是桥接。这里如果想让虚拟机成为物理网络中一台独立的计算机，拥有自己的ip地址，并且与物理网络内其他设备进行通信，就需要设置为桥接，这里的区别如下。</p>
+<h6 id="IP地址分配"><a href="#IP地址分配" class="headerlink" title="IP地址分配"></a>IP地址分配</h6><p>原来：在使用NAT模式时，虚拟机通常使用私有IP地址，由虚拟机的网络管理器（如VirtualBox的DHCP服务器）分配。在仅主机模式中，虚拟机可能会获得一个与宿主机在同一网段的IP地址，但仍然无法直接与外部网络通信。<br>桥接后：虚拟机将直接从物理网络的DHCP服务器获取IP地址，或者可以手动设置一个与物理网络在同一网段的IP地址。</p>
+<h6 id="网络访问"><a href="#网络访问" class="headerlink" title="网络访问:"></a>网络访问:</h6><p>原来：在NAT模式下，虚拟机可以访问外部网络，但外部网络无法直接访问虚拟机。在仅主机模式下，虚拟机只能与宿主机通信，无法访问外部网络。<br>桥接后：虚拟机可以与物理网络中的其他设备进行双向通信，包括访问外部网络和被外部网络访问。</p>
+<h6 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发:"></a>端口转发:</h6><p>原来：在NAT模式下，可能需要设置端口转发规则，以便外部网络能够访问虚拟机上的服务。<br>桥接后：通常不需要设置端口转发，因为虚拟机在网络上就像是另一台独立的计算机。</p>
+<h6 id="网络隔离"><a href="#网络隔离" class="headerlink" title="网络隔离:"></a>网络隔离:</h6><p>原来：在NAT和仅主机模式下，虚拟机与外部网络有一定的隔离，可以提高安全性。<br>桥接后：虚拟机直接暴露在物理网络上，因此需要考虑网络安全措施，如防火墙设置等。</p>
+<h6 id="网络性能"><a href="#网络性能" class="headerlink" title="网络性能:"></a>网络性能:</h6><p>原来：NAT和仅主机模式可能会因为网络地址转换和网络隔离而造成一定的性能损失。<br>桥接后：虚拟机通常可以获得更好的网络性能，因为它直接访问物理网络。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2024/04/15/Linux%E5%85%A5%E9%97%A8-%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Linux入门-命令基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/04/04/Linux%E5%85%A5%E9%97%A8-%E5%91%BD%E4%BB%A4%E5%9F%BA%E7%A1%80/">Linux入门-命令基础</a>
+    </h1>
+  
+
+        
+        <a href="/2024/04/04/Linux%E5%85%A5%E9%97%A8-%E5%91%BD%E4%BB%A4%E5%9F%BA%E7%A1%80/" class="archive-article-date">
   	<time datetime="2024-04-04T10:00:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-04</time>
 </a>
         
@@ -193,6 +262,16 @@
 <p>wc [-c -m -l -w] 文件路径<br>-c统计bytes数量 -m统计字符数量 -l统计行数 -w统计单词数量<br>文件路径表示被统计的文件，可作为内容输入</p>
 <p>管道符: |<br>将管道符左边命令的结果作为右边命令的输入<br>eg: cat abc.txt | grep kevin   这里grep最后一个文件路径就填的左边的输出结果</p>
 </li>
+<li>echo 输出的内容<br>表示要输出的内容，带有空格或\的特殊符号，建议使用双引号包围<br>反引号``包围的内容将被作为命令执行<br>重定向符: &gt;和&gt;&gt;<blockquote>
+<p>将左侧命令的结果，覆盖写入到符号右侧指定的文件中</p>
+<blockquote>
+<p>将左侧命令的结果，追加写入到符号右侧指定的文件中</p>
+</blockquote>
+</blockquote>
+</li>
+<li>tail [-f -num] Linux路径  可以查看文件尾部内容<br>-f 表示持续跟踪，持续跟踪文件最新更改<br>-num 表示查看尾部多少行，不填默认10行</li>
+<li>vi 文件路径/vim 文件路径</li>
+<li>su - [用户名]<br>-符号是可选的，表示是否在切换用户后加载环境变量，建议带上<br>切换用户后，使用exit命令退回上一个用户，也可以ctrl+d<br>sudo 临时赋予root权限</li>
 </ol>
 
       
@@ -206,7 +285,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2024/04/04/linux%E5%85%A5%E9%97%A8-%E5%91%BD%E4%BB%A4%E5%9F%BA%E7%A1%80/">展开全文 >></a>
+          <a class="article-more-a" href="/2024/04/04/Linux%E5%85%A5%E9%97%A8-%E5%91%BD%E4%BB%A4%E5%9F%BA%E7%A1%80/">展开全文 >></a>
         </p>
       
 
