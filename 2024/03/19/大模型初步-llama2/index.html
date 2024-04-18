@@ -16,7 +16,7 @@
 <meta property="og:description" content="笔者也是初学者，一边学习总结一边写这篇文章。 一、学习资料代码代码地址：https:&#x2F;&#x2F;github.com&#x2F;DLLXW&#x2F;baby-llama2-chinese 网络课程和文章课程地址：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV12h4y1N7C8&#x2F;?spm_id_from&#x3D;333.337.search-card.all.click&amp;vd_source&#x3D;cd8ea6">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-03-19T14:12:34.000Z">
-<meta property="article:modified_time" content="2024-03-30T04:27:01.256Z">
+<meta property="article:modified_time" content="2024-04-18T17:07:11.866Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -370,7 +370,7 @@
     </div>
     <script>
 	var yiliaConfig = {
-		mathjax: true,
+		mathjax: [object Object],
 		isHome: false,
 		isPost: true,
 		isArchive: false,
@@ -620,5 +620,21 @@ MathJax.Hub.Queue(function() {
 
 </div>
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
