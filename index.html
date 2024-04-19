@@ -930,10 +930,10 @@ mjx-container[display="true"] + br {
 <p>当然在学习建之前，需要想通一个问题，为什么要建立自己的博客。于我而言的意义写在我的<a target="_blank" rel="noopener" href="https://kevin236-max.github.io/home/">个人主页</a>上了。当然，我也想过另一个问题，现在已经有强大的chatgpt4了，有什么不会的问题直接问chat不就可以了？考虑到这一点，我的个人博客就不会涉及到很多具体的知识点，而是处理一些问题优质的资料推荐。<br><!-- 每个人对此的认识和想法或许会有不同，也可能处于不同角度来做这样一件事情 --></p>
 <p>这里我建立博客完全是按照这个b站视频的步骤完成的，这个视频说得非常详细。</p>
 <pre><code>视频地址：https://www.bilibili.com/video/BV1Yb411a7ty/?spm_id_from=333.337.search-card.all.click
-</code></pre><p>然后，我们就可以基于视频中所用的模版进一步优化完善自己的界面，主要是关于(_config.yml)文件的修改，这里我基本上没有再查找别的资料，而是直接问chatgpt逐步完善了功能，例如：头像，评论等等。<br>这里就提一个要点，修改都要在(source)文件下进行修改，然后通过git bash提交上去。最开始我很傻的修改了(.deploy_git)，结果发现在(git bash)上执行(hexo g)命令以后没有被提交上去。</p>
+</code></pre><p>然后，我们就可以基于视频中所用的模版进一步优化完善自己的界面，主要是关于$_config.yml$文件的修改，这里我基本上没有再查找别的资料，而是直接问chatgpt逐步完善了功能，例如：头像，评论等等。<br>这里就提一个要点，修改都要在$source$文件下进行修改，然后通过git bash提交上去。最开始我很傻的修改了$.deploy_git$，结果发现在$git bash$上执行$hexo g$命令以后没有被提交上去。</p>
 <h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ol>
 <li>如果出现了这种报错<br>FATAL Something’s wrong. Maybe you can find the solution here: <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">https://hexo.io/docs/troubleshooting.html</a><br>Error: Spawn failed<br> at ChildProcess.<anonymous> (/Users/xiangxiangyongan/blog/node_modules/_hexo-util@1.5.0@hexo-util/lib/spawn.js:51:21)<br> at ChildProcess.emit (events.js:210:5)<br> at Process.ChildProcess._handle.onexit (internal/child_process.js:272:12)<br> <code>参考网址：https://blog.csdn.net/qq_45020818/article/details/126949337</code></li>
-<li>如果markdown上用latex的代码无法被(generate)<br><code>文章地址：https://blog.51cto.com/AomanHao/6185050</code><br>注意我们这里用的是(yilia)的主题，如果用的是其他主题，请参考其他主题对应的方法，因为不同模版主题中的(_config.yml)文件不同</li>
+<li>如果markdown上用latex的代码无法被$generate$<br><code>文章地址：https://blog.51cto.com/AomanHao/6185050</code><br>注意我们这里用的是$yilia$的主题，如果用的是其他主题，请参考其他主题对应的方法，因为不同模版主题中的$_config.yml$文件不同</li>
 </ol>
 <p>未完待续~~~</p>
 
@@ -1010,7 +1010,7 @@ mjx-container[display="true"] + br {
     </div>
     <script>
 	var yiliaConfig = {
-		mathjax: [object Object],
+		mathjax: true,
 		isHome: true,
 		isPost: false,
 		isArchive: false,
