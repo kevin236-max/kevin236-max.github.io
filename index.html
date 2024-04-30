@@ -264,6 +264,70 @@ mjx-container[display="true"] + br {
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-大模型初步-TRL代码解读" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/04/30/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-TRL%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB/">大模型初步-TRL代码解读</a>
+    </h1>
+  
+
+        
+        <a href="/2024/04/30/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-TRL%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB/" class="archive-article-date">
+  	<time datetime="2024-04-30T15:04:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作为初学者，TRL的底层代码值得仔细阅读，里面包含平时没怎么见过的语法点，用法，这些内容都需要知晓。<br>代码地址：<a target="_blank" rel="noopener" href="https://github.com/huggingface/trl">https://github.com/huggingface/trl</a><br>我们先从examples/scripts里面的代码开始入手学习</p>
+<h3 id="ppo-py"><a href="#ppo-py" class="headerlink" title="ppo.py"></a>ppo.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">下面是运行该脚本的方法，使用Weights &amp; Biases (wandb) 进行日志记录</span></span><br><span class="line"><span class="string">python examples/scripts/ppo.py \</span></span><br><span class="line"><span class="string">    --log_with=wandb</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">几个调用的包：dataclasses用于定义配置类，accelerate用于加速训练，datasets用于加载数据集，</span></span><br><span class="line"><span class="string">peft用于低秩适配，tqdm用于显示进度条，transformers用于加载模型和分词器，trl用于强化学习训练</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">from</span> dataclasses <span class="keyword">import</span> dataclass, field</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Optional</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> accelerate <span class="keyword">import</span> Accelerator</span><br><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset</span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> LoraConfig</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer, HfArgumentParser, pipeline</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> trl <span class="keyword">import</span> AutoModelForCausalLMWithValueHead, AutoModelForSeq2SeqLMWithValueHead, PPOConfig, PPOTrainer, set_seed</span><br><span class="line"><span class="keyword">from</span> trl.core <span class="keyword">import</span> LengthSampler</span><br><span class="line"><span class="keyword">from</span> trl.import_utils <span class="keyword">import</span> is_npu_available, is_xpu_available</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tqdm.pandas()  <span class="comment"># 使得tqdm进度条可以在Pandas数据处理中使用</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;这里定义了一个ScriptArguments数据类，用于存储脚本运行时的参数&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="meta">@dataclass</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ScriptArguments</span>:</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;field() 函数是 dataclasses 模块的一个函数，它用于指定数据类字段的额外信息，比如默认值、字段类型注解、字段元数据等&#x27;&#x27;&#x27;</span></span><br><span class="line">    use_seq2seq: <span class="built_in">bool</span> = field(default=<span class="literal">False</span>, metadata=&#123;<span class="string">&quot;help&quot;</span>: <span class="string">&quot;whether to use seq2seq&quot;</span>&#125;)</span><br><span class="line">    trust_remote_code: <span class="built_in">bool</span> = field(default=<span class="literal">False</span>, metadata=&#123;<span class="string">&quot;help&quot;</span>: <span class="string">&quot;Enable `trust_remote_code`&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># LoraConfig</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;Optional[float] 用于指示 lora_alpha 字段可以是 float 类型或者 None, 它在创建数据类的实例时可以有值，也可以没有值（即为 None）&#x27;&#x27;&#x27;</span></span><br><span class="line">    use_peft: <span class="built_in">bool</span> = field(default=<span class="literal">False</span>, metadata=&#123;<span class="string">&quot;help&quot;</span>: <span class="string">&quot;whether to use peft&quot;</span>&#125;)</span><br><span class="line">    lora_alpha: <span class="type">Optional</span>[<span class="built_in">float</span>] = field(default=<span class="number">16</span>, metadata=&#123;<span class="string">&quot;help&quot;</span>: <span class="string">&quot;the lora alpha parameter&quot;</span>&#125;)</span><br><span class="line">    lora_r: <span class="type">Optional</span>[<span class="built_in">int</span>] = field(default=<span class="number">16</span>, metadata=&#123;<span class="string">&quot;help&quot;</span>: <span class="string">&quot;the lora r parameter&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;使用了 transformers 库中的 HfArgumentParser 类来解析命令行参数，并创建传入的两个数据类（ScriptArguments, PPOConfig）的实例&#x27;&#x27;&#x27;</span></span><br><span class="line">parser = HfArgumentParser((ScriptArguments, PPOConfig))</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;调用了 HfArgumentParser 实例的 parse_args_into_dataclasses 方法，该方法解析命令行参数并返回一个元组，其中包含了每个传递的数据类类型的实例。返回了一个包含 ScriptArguments 实例和 PPOConfig 实例的元组，并将它们分别赋值给 args 和 ppo_config 变量&#x27;&#x27;&#x27;</span></span><br><span class="line">args, ppo_config = parser.parse_args_into_dataclasses()</span><br><span class="line"></span><br><span class="line"><span class="comment"># We then define the arguments to pass to the sentiment analysis pipeline.</span></span><br><span class="line"><span class="comment"># We set `return_all_scores` to True to get the sentiment score for each token.</span></span><br><span class="line">sent_kwargs = &#123;<span class="string">&quot;return_all_scores&quot;</span>: <span class="literal">True</span>, <span class="string">&quot;function_to_apply&quot;</span>: <span class="string">&quot;none&quot;</span>, <span class="string">&quot;batch_size&quot;</span>: <span class="number">16</span>&#125;</span><br><span class="line"></span><br><span class="line">trl_model_class = AutoModelForCausalLMWithValueHead <span class="keyword">if</span> <span class="keyword">not</span> args.use_seq2seq <span class="keyword">else</span> AutoModelForSeq2SeqLMWithValueHead</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Below is an example function to build the dataset. In our case, we use the IMDB dataset</span></span><br><span class="line"><span class="comment"># from the `datasets` library. One should customize this function to train the model on</span></span><br><span class="line"><span class="comment"># its own dataset.</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">build_dataset</span>(<span class="params">config, query_dataset, input_min_text_length=<span class="number">2</span>, input_max_text_length=<span class="number">8</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Build dataset for training. This builds the dataset from `load_dataset`, one should</span></span><br><span class="line"><span class="string">    customize this function to train the model on its own dataset.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        query_dataset (`str`):</span></span><br><span class="line"><span class="string">            The name of the dataset to be loaded.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        dataloader (`torch.utils.data.DataLoader`):</span></span><br><span class="line"><span class="string">            The dataloader for the dataset.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    tokenizer = AutoTokenizer.from_pretrained(config.model_name)</span><br><span class="line">    tokenizer.pad_token = tokenizer.eos_token</span><br><span class="line">    <span class="comment"># load imdb with datasets</span></span><br><span class="line">    ds = load_dataset(query_dataset, split=<span class="string">&quot;train&quot;</span>)</span><br><span class="line">    ds = ds.rename_columns(&#123;<span class="string">&quot;text&quot;</span>: <span class="string">&quot;review&quot;</span>&#125;)</span><br><span class="line">    ds = ds.<span class="built_in">filter</span>(<span class="keyword">lambda</span> x: <span class="built_in">len</span>(x[<span class="string">&quot;review&quot;</span>]) &gt; <span class="number">200</span>, batched=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    input_size = LengthSampler(input_min_text_length, input_max_text_length)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tokenize</span>(<span class="params">sample</span>):</span><br><span class="line">        sample[<span class="string">&quot;input_ids&quot;</span>] = tokenizer.encode(sample[<span class="string">&quot;review&quot;</span>])[: input_size()]</span><br><span class="line">        sample[<span class="string">&quot;query&quot;</span>] = tokenizer.decode(sample[<span class="string">&quot;input_ids&quot;</span>])</span><br><span class="line">        <span class="keyword">return</span> sample</span><br><span class="line"></span><br><span class="line">    ds = ds.<span class="built_in">map</span>(tokenize, batched=<span class="literal">False</span>)</span><br><span class="line">    ds.set_format(<span class="built_in">type</span>=<span class="string">&quot;torch&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> ds</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># We retrieve the dataloader by calling the `build_dataset` function.</span></span><br><span class="line">dataset = build_dataset(ppo_config, ppo_config.query_dataset)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">collator</span>(<span class="params">data</span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;key: [d[key] <span class="keyword">for</span> d <span class="keyword">in</span> data] <span class="keyword">for</span> key <span class="keyword">in</span> data[<span class="number">0</span>]&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># set seed before initializing value head for deterministic eval</span></span><br><span class="line">set_seed(ppo_config.seed)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Now let&#x27;s build the model, the reference model, and the tokenizer.</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> args.use_peft:</span><br><span class="line">    ref_model = trl_model_class.from_pretrained(ppo_config.model_name, trust_remote_code=args.trust_remote_code)</span><br><span class="line">    device_map = <span class="literal">None</span></span><br><span class="line">    peft_config = <span class="literal">None</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    peft_config = LoraConfig(</span><br><span class="line">        r=args.lora_r,</span><br><span class="line">        lora_alpha=args.lora_alpha,</span><br><span class="line">        bias=<span class="string">&quot;none&quot;</span>,</span><br><span class="line">        task_type=<span class="string">&quot;CAUSAL_LM&quot;</span>,</span><br><span class="line">    )</span><br><span class="line">    ref_model = <span class="literal">None</span></span><br><span class="line">    <span class="comment"># Copy the model to each device</span></span><br><span class="line">    device_map = &#123;<span class="string">&quot;&quot;</span>: Accelerator().local_process_index&#125;</span><br><span class="line"></span><br><span class="line">model = trl_model_class.from_pretrained(</span><br><span class="line">    ppo_config.model_name,</span><br><span class="line">    trust_remote_code=args.trust_remote_code,</span><br><span class="line">    device_map=device_map,</span><br><span class="line">    peft_config=peft_config,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(ppo_config.model_name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Some tokenizers like GPT-2&#x27;s don&#x27;t have a padding token by default, so we set one here.</span></span><br><span class="line">tokenizer.pad_token_id = tokenizer.eos_token_id</span><br><span class="line"></span><br><span class="line"><span class="comment"># We then build the PPOTrainer, passing the model, the reference model, the tokenizer</span></span><br><span class="line">ppo_trainer = PPOTrainer(ppo_config, model, ref_model, tokenizer, dataset=dataset, data_collator=collator)</span><br><span class="line"></span><br><span class="line"><span class="comment"># We then build the sentiment analysis pipeline, passing the model name and the</span></span><br><span class="line"><span class="comment"># sentiment analysis pipeline arguments. Let&#x27;s also make sure to set the device</span></span><br><span class="line"><span class="comment"># to the same device as the PPOTrainer.</span></span><br><span class="line">device = ppo_trainer.accelerator.device</span><br><span class="line"><span class="keyword">if</span> ppo_trainer.accelerator.num_processes == <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">if</span> is_xpu_available():</span><br><span class="line">        device = <span class="string">&quot;xpu:0&quot;</span></span><br><span class="line">    <span class="keyword">elif</span> is_npu_available():</span><br><span class="line">        device = <span class="string">&quot;npu:0&quot;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        device = <span class="number">0</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&quot;cpu&quot;</span>  <span class="comment"># to avoid a `pipeline` bug</span></span><br><span class="line">ds_plugin = ppo_trainer.accelerator.state.deepspeed_plugin</span><br><span class="line">task, model_name = ppo_config.reward_model.split(<span class="string">&quot;:&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> ds_plugin <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">and</span> ds_plugin.is_zero3_init_enabled():</span><br><span class="line">    <span class="keyword">with</span> ds_plugin.zero3_init_context_manager(enable=<span class="literal">False</span>):</span><br><span class="line">        sentiment_pipe = pipeline(task, model=model_name, device=device)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    sentiment_pipe = pipeline(task, model=model_name, device=device)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Some tokenizers like GPT-2&#x27;s don&#x27;t have a padding token by default, so we set one here.</span></span><br><span class="line"><span class="keyword">if</span> sentiment_pipe.tokenizer.pad_token_id <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    sentiment_pipe.tokenizer.pad_token_id = tokenizer.pad_token_id</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> sentiment_pipe.model.config.pad_token_id <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    sentiment_pipe.model.config.pad_token_id = tokenizer.pad_token_id</span><br><span class="line"></span><br><span class="line"><span class="comment"># We then define the arguments to pass to the `generate` function. These arguments</span></span><br><span class="line"><span class="comment"># are passed to the `generate` function of the PPOTrainer, which is a wrapper around</span></span><br><span class="line"><span class="comment"># the `generate` function of the trained model.</span></span><br><span class="line">generation_kwargs = &#123;</span><br><span class="line">    <span class="string">&quot;min_length&quot;</span>: -<span class="number">1</span>,</span><br><span class="line">    <span class="string">&quot;top_k&quot;</span>: <span class="number">0.0</span>,</span><br><span class="line">    <span class="string">&quot;top_p&quot;</span>: <span class="number">1.0</span>,</span><br><span class="line">    <span class="string">&quot;do_sample&quot;</span>: <span class="literal">True</span>,</span><br><span class="line">    <span class="string">&quot;pad_token_id&quot;</span>: tokenizer.eos_token_id,</span><br><span class="line">    <span class="string">&quot;max_new_tokens&quot;</span>: <span class="number">32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _epoch, batch <span class="keyword">in</span> tqdm(<span class="built_in">enumerate</span>(ppo_trainer.dataloader)):</span><br><span class="line">    query_tensors = batch[<span class="string">&quot;input_ids&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Get response from gpt2</span></span><br><span class="line">    response_tensors, ref_response_tensors = ppo_trainer.generate(</span><br><span class="line">        query_tensors, return_prompt=<span class="literal">False</span>, generate_ref_response=<span class="literal">True</span>, **generation_kwargs</span><br><span class="line">    )</span><br><span class="line">    batch[<span class="string">&quot;response&quot;</span>] = tokenizer.batch_decode(response_tensors)</span><br><span class="line">    batch[<span class="string">&quot;ref_response&quot;</span>] = tokenizer.batch_decode(ref_response_tensors)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Compute sentiment score</span></span><br><span class="line">    texts = [q + r <span class="keyword">for</span> q, r <span class="keyword">in</span> <span class="built_in">zip</span>(batch[<span class="string">&quot;query&quot;</span>], batch[<span class="string">&quot;response&quot;</span>])]</span><br><span class="line">    pipe_outputs = sentiment_pipe(texts, **sent_kwargs)</span><br><span class="line">    rewards = [torch.tensor(output[<span class="number">1</span>][<span class="string">&quot;score&quot;</span>]) <span class="keyword">for</span> output <span class="keyword">in</span> pipe_outputs]</span><br><span class="line">    ref_texts = [q + r <span class="keyword">for</span> q, r <span class="keyword">in</span> <span class="built_in">zip</span>(batch[<span class="string">&quot;query&quot;</span>], batch[<span class="string">&quot;ref_response&quot;</span>])]</span><br><span class="line">    ref_pipe_outputs = sentiment_pipe(ref_texts, **sent_kwargs)</span><br><span class="line">    ref_rewards = [torch.tensor(output[<span class="number">1</span>][<span class="string">&quot;score&quot;</span>]) <span class="keyword">for</span> output <span class="keyword">in</span> ref_pipe_outputs]</span><br><span class="line">    batch[<span class="string">&quot;ref_rewards&quot;</span>] = ref_rewards</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Run PPO step</span></span><br><span class="line">    stats = ppo_trainer.step(query_tensors, response_tensors, rewards)</span><br><span class="line">    ppo_trainer.log_stats(stats, batch, rewards, columns_to_log=[<span class="string">&quot;query&quot;</span>, <span class="string">&quot;response&quot;</span>, <span class="string">&quot;ref_response&quot;</span>, <span class="string">&quot;ref_rewards&quot;</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2024/04/30/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-TRL%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-大模型初步-transformers用法学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -284,7 +348,7 @@ mjx-container[display="true"] + br {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h3><p>在github网站上找hugging face就可以找到了全英文的教程<a target="_blank" rel="noopener" href="https://github.com/huggingface/transformers/blob/main/README_zh-hans.md">github网址</a>，如果英语不好的可以去看中文<br>当然我觉得如果是初学者还是从基础的开始，以下是两个适合入门的学习网址:<br><a target="_blank" rel="noopener" href="https://transformers.run">https://transformers.run</a><br><a target="_blank" rel="noopener" href="https://github.com/liuzard/transformers_zh_docs/blob/master/docs_zh/autoclass_tutorial.md">https://github.com/liuzard/transformers_zh_docs/blob/master/docs_zh/autoclass_tutorial.md</a><br>接下来就是参考这两篇文档提取出来的核心知识点。</p>
+        <h3 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h3><p>在github网站上找hugging face就可以找到了全英文的教程<a target="_blank" rel="noopener" href="https://github.com/huggingface/transformers/blob/main/README_zh-hans.md">github网址</a>，如果英语不好的可以去看中文<br>当然我觉得如果是初学者还是从基础的开始，以下是两个适合入门的学习网址:<br><a target="_blank" rel="noopener" href="https://transformers.run">https://transformers.run</a><br><a target="_blank" rel="noopener" href="https://github.com/liuzard/transformers_zh_docs/tree/master">https://github.com/liuzard/transformers_zh_docs/tree/master</a><br>接下来就是参考这两篇文档提取出来的核心知识点。</p>
 <h3 id="通过pipeline进行推理"><a href="#通过pipeline进行推理" class="headerlink" title="通过pipeline进行推理"></a>通过pipeline进行推理</h3><p>这部分内容用得比较少，先跳过。</p>
 <h3 id="使用AutoClass编写可移植代码"><a href="#使用AutoClass编写可移植代码" class="headerlink" title="使用AutoClass编写可移植代码"></a>使用AutoClass编写可移植代码</h3><blockquote>
 <p>架构指的是模型的框架，而检查点是给定架构的权重。例如，BERT是一个架构，而 bert-base-uncased 是一个检查点。”模型” 是一个通用术语，可以指代架构或检查点。</p>
@@ -310,7 +374,7 @@ mjx-container[display="true"] + br {
 <blockquote>
 <p>array 是作为1D数组加载 - 并且可能重采样 - 的语音信号。<br> path 指向音频文件的位置。<br> sampling_rate 表示每秒测量语音信号的数据点数</p>
 </blockquote>
-<h3 id="微调预训练模型"><a href="#微调预训练模型" class="headerlink" title="微调预训练模型"></a>微调预训练模型</h3>
+<h3 id="调优预训练模型"><a href="#调优预训练模型" class="headerlink" title="调优预训练模型"></a>调优预训练模型</h3>
       
 
       
@@ -868,106 +932,6 @@ mjx-container[display="true"] + br {
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2024/03/19/%E5%A6%82%E4%BD%95%E7%A7%9F%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B7%91%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-大模型初步-llama2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/03/19/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-llama2/">大模型初步-llama2</a>
-    </h1>
-  
-
-        
-        <a href="/2024/03/19/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-llama2/" class="archive-article-date">
-  	<time datetime="2024-03-19T14:12:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-03-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>笔者也是初学者，一边学习总结一边写这篇文章。</p>
-<h2 id="一、学习资料"><a href="#一、学习资料" class="headerlink" title="一、学习资料"></a>一、学习资料</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code>代码地址：https://github.com/DLLXW/baby-llama2-chinese
-</code></pre><h3 id="网络课程和文章"><a href="#网络课程和文章" class="headerlink" title="网络课程和文章"></a>网络课程和文章</h3><pre><code>课程地址：https://www.bilibili.com/video/BV12h4y1N7C8/?spm_id_from=333.337.search-card.all.click&amp;vd_source=cd8ea6c3c8b0bf72de553b1586baad87
-知乎文章：https://zhuanlan.zhihu.com/p/649756898
-</code></pre><h3 id="学习群聊"><a href="#学习群聊" class="headerlink" title="学习群聊"></a>学习群聊</h3><pre><code>qq:716455397 baby-llama2-chinese
-</code></pre><h2 id="二、知识要点"><a href="#二、知识要点" class="headerlink" title="二、知识要点"></a>二、知识要点</h2><h3 id="模型搭建阶段"><a href="#模型搭建阶段" class="headerlink" title="模型搭建阶段"></a>模型搭建阶段</h3><ol>
-<li>在normal上的操作与transformer不同，llama2用的是RMSNorm方法（注意这里是对整个句子规范化，不是对一个词向量进行规范化）<br>为什么要规范化？</li>
-<li>linear层产生多头注意力Q,K,V矩阵</li>
-<li>ROPE 操作： 通过绝对位置编码的方式实现了相对位置编码<br>绝对位置编码—&gt;旋转位置编码<br>具体证明和介绍的文章：<code>https://zhuanlan.zhihu.com/p/642884818</code>   涉及到的都是基本矩阵和复变函数知识</li>
-<li>为什么需要mask操作？</li>
-<li>KVcache的意义<br>事实上存储KV矩阵不现实</li>
-<li>使用MQA是个更好的选择，比单一的KV矩阵有更高的精度，比一个多头存一个KV矩阵消耗更少的空间</li>
-</ol>
-<h3 id="预训练阶段"><a href="#预训练阶段" class="headerlink" title="预训练阶段"></a>预训练阶段</h3><ol>
-<li>梯度裁剪和梯度缩放</li>
-</ol>
-<h3 id="微调阶段"><a href="#微调阶段" class="headerlink" title="微调阶段"></a>微调阶段</h3><h4 id="高效模型微调"><a href="#高效模型微调" class="headerlink" title="高效模型微调"></a>高效模型微调</h4><ol>
-<li>LoRA<br>参考文章：<code>https://zhuanlan.zhihu.com/p/644360231</code><br>通过调整秩(r)和缩放系数(alpha)的大小，将W用两个低秩矩阵表示，只调整这两个低秩矩阵，不调整预训练的参数矩阵<br>两个矩阵一个用高斯函数初始化，一个用零矩阵初始化<br>lora_dropout的参数设置不能忽略，随机丢弃神经元提升小矩阵的泛化能力</li>
-<li>AdaLoRA<br>参考文章：<code>https://zhuanlan.zhihu.com/p/667432109</code><br>需要补充的知识点：幺正矩阵性质，SVD算法(笔者还没有完全搞清楚这些性质的证明过程)<br>主要是要注意三元组的问题，为什么这里只需要管P矩阵的第i行，一维向量lambda的第i个值，Q矩阵的第i列 -&gt; 这里幺正矩阵的条件决定了它们之间的关系是固定的<br>注意损失函数里面需要添加的正则化项<br>在SVD中，特征的重要性取决于它对应的奇异值的绝对值的大小</li>
-<li>QLoRA<br>参考文章：<code>https://zhuanlan.zhihu.com/p/676998456</code> 这篇文章将数据放缩的基本知识讲得很清楚<br>注意是对每一个块进行一个缩放，存储一个缩放系数<br>主要包含三项技术：（1）新的数据类型 4-bit NormalFloat（NF4）；（2）双重量化（Double Quantization）；（3）分页优化器（Paged Optimizers）</li>
-</ol>
-<h4 id="模型上下文窗口扩展"><a href="#模型上下文窗口扩展" class="headerlink" title="模型上下文窗口扩展"></a>模型上下文窗口扩展</h4><ol>
-<li>ALiBi<br>参考文章：<code>https://zhuanlan.zhihu.com/p/656684326</code> <code>https://spaces.ac.cn/archives/9431</code><br>提升位置编码的外推能力</li>
-<li>差值法</li>
-</ol>
-<h2 id="三、代码"><a href="#三、代码" class="headerlink" title="三、代码"></a>三、代码</h2><p>这里参考的是baby-llama2-chinese-main的代码文件，源码部分只有生成阶段的部分代码</p>
-<h3 id="model-py"><a href="#model-py" class="headerlink" title="model.py"></a>model.py</h3><ol>
-<li>RMSNorm层公式:<script type="math/tex; mode=display">\text{output} = x \times \frac{1}{\sqrt{\text{mean}(x^2, \text{axis}=-1) + \epsilon}}</script>假设输入张量x的形状为(batch_size, sequence_length, feature_dim)，最后根号内生成的是一个二维张量，形状为(batch_size, sequence_length)，这里是对每一个feature赋一个权重。</li>
-<li>ROPE:</li>
-<li>Swish激活函数:<script type="math/tex; mode=display">\text{Swish}(x) = x \cdot \sigma(\beta \cdot x)</script><script type="math/tex; mode=display">\sigma(x) = \frac{1}{1 + e^{-x}}</script></li>
-<li>交叉熵:</li>
-</ol>
-<h3 id="pretain-py"><a href="#pretain-py" class="headerlink" title="pretain.py"></a>pretain.py</h3><ol>
-<li>学习率公式:<br>线性预热阶段(Linear Warmup):<script type="math/tex; mode=display">\text{learning_rate} = \frac{\text{learning_rate} \times \text{it}}{\text{warmup_iters}}</script>学习率衰减阶段(Learning Rate Decay):<script type="math/tex; mode=display">\text{decay_ratio} = \frac{\text{it} - \text{warmup_iters}}{\text{lr_decay_iters} - \text{warmup_iters}}</script>中间阶段:<script type="math/tex; mode=display">\text{coeff} = \frac{1}{2} \left(1 + \cos(\pi \times \text{decay_ratio})\right)</script><script type="math/tex; mode=display">\text{learning_rate} = \text{min_lr} + \text{coeff} \times (\text{learning_rate} - \text{min_lr})</script></li>
-</ol>
-<h2 id="四、融会贯通"><a href="#四、融会贯通" class="headerlink" title="四、融会贯通"></a>四、融会贯通</h2><ol>
-<li>关于为什么主流大模型都使用decoder-only而非encoder-decoder框架？<br>参考文章链接:<br><code>https://kexue.fm/archives/9529 (苏神)</code><br><code>https://www.zhihu.com/question/588325646 (知乎问答)</code></li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/03/19/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-llama2/">展开全文 >></a>
         </p>
       
 
