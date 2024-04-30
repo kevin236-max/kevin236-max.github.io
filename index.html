@@ -264,6 +264,146 @@ mjx-container[display="true"] + br {
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-大模型初步-transformers用法学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/04/30/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-transformers%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/">大模型初步-transformers用法学习</a>
+    </h1>
+  
+
+        
+        <a href="/2024/04/30/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-transformers%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
+  	<time datetime="2024-04-30T10:16:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h3><p>在github网站上找hugging face就可以找到了全英文的教程<a target="_blank" rel="noopener" href="https://github.com/huggingface/transformers/blob/main/README_zh-hans.md">github网址</a>，如果英语不好的可以去看中文<br>当然我觉得如果是初学者还是从基础的开始，以下是两个适合入门的学习网址:<br><a target="_blank" rel="noopener" href="https://transformers.run">https://transformers.run</a><br><a target="_blank" rel="noopener" href="https://github.com/liuzard/transformers_zh_docs/blob/master/docs_zh/autoclass_tutorial.md">https://github.com/liuzard/transformers_zh_docs/blob/master/docs_zh/autoclass_tutorial.md</a><br>接下来就是参考这两篇文档提取出来的核心知识点。</p>
+<h3 id="通过pipeline进行推理"><a href="#通过pipeline进行推理" class="headerlink" title="通过pipeline进行推理"></a>通过pipeline进行推理</h3><p>这部分内容用得比较少，先跳过。</p>
+<h3 id="使用AutoClass编写可移植代码"><a href="#使用AutoClass编写可移植代码" class="headerlink" title="使用AutoClass编写可移植代码"></a>使用AutoClass编写可移植代码</h3><blockquote>
+<p>架构指的是模型的框架，而检查点是给定架构的权重。例如，BERT是一个架构，而 bert-base-uncased 是一个检查点。”模型” 是一个通用术语，可以指代架构或检查点。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">加载AutoTokenizer，AutoImageProcessor，AutoFeatureExtractor，AutoProcessor，AutoModel</span></span><br><span class="line"><span class="string">分别为预训练的分词器，预训练的图像处理器，预训练的特征提取器，预训练的处理器，预训练的模型</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer</span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;bert-base-cased&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer</span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;bert-base-cased&quot;</span>)</span><br><span class="line">encoded_input = tokenizer(<span class="string">&quot;Do not meddle in the affairs of wizards, for they are subtle and quick to anger.&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(encoded_input)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>分词处理器返回一个包含三个重要的字典项：<br> input_ids 是句子中每个token对应的索引<br> attention_mask 指示一个token是否应该被注意(attention or mask)<br> token_type_ids 是当有多个序列时，标识一个token属于哪个序列</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;</span><br><span class="line">&#123;<span class="string">&#x27;input_ids&#x27;</span>: [<span class="number">101</span>, <span class="number">2079</span>, <span class="number">2025</span>, <span class="number">19960</span>, <span class="number">10362</span>, <span class="number">1999</span>, <span class="number">1996</span>, <span class="number">3821</span>, <span class="number">1997</span>, <span class="number">16657</span>, <span class="number">1010</span>, <span class="number">2005</span>, <span class="number">2027</span>, <span class="number">2024</span>, <span class="number">11259</span>, <span class="number">1998</span>, <span class="number">4248</span>, <span class="number">2000</span>, <span class="number">4963</span>, <span class="number">1012</span>, <span class="number">102</span>],</span><br><span class="line"> <span class="string">&#x27;token_type_ids&#x27;</span>: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line"> <span class="string">&#x27;attention_mask&#x27;</span>: [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;这里调用了input_ids和decode函数&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tokenizer.decode(encoded_input[<span class="string">&quot;input_ids&quot;</span>])</span><br><span class="line"><span class="string">&#x27;[CLS] Do not meddle in the affairs of wizards, for they are subtle and quick to anger. [SEP]&#x27;</span></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2024/04/30/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-transformers%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-大模型初步-主流验证测试集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/04/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%B8%BB%E6%B5%81%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86/">大模型初步-主流验证测试集</a>
+    </h1>
+  
+
+        
+        <a href="/2024/04/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%B8%BB%E6%B5%81%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86/" class="archive-article-date">
+  	<time datetime="2024-04-20T15:00:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在看各个模型的论文的时候，我们发现会有一些评估的分数，这些评估方式或者方法值得我们简单学习一下</p>
+<ol>
+<li>BLEU<br>序列生成的评估方式</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2024/04/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%B8%BB%E6%B5%81%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-大模型初步-从gpt1到gpt3-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -284,14 +424,15 @@ mjx-container[display="true"] + br {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="文章和课程"><a href="#文章和课程" class="headerlink" title="文章和课程"></a>文章和课程</h3><p>这篇知乎上的文章和李沐b站上对于gpt1-3的讲解比较类似<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/609716668">知乎链接</a>，有兴趣也可以看李沐的课</p>
+        <h3 id="文章和课程"><a href="#文章和课程" class="headerlink" title="文章和课程"></a>文章和课程</h3><p>这篇知乎上的文章和李沐b站上对于gpt1-3的讲解比较类似<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/609716668">知乎链接</a>，这部分内容有transformer基础就可以看。<br>这篇文章结构和内容感觉是看得几篇文章里面比较全面的，从几个gpt模型的结构，到训练数据来源，训练方法，局限性等等角度进行解析，但是对于gpt3的内容讲解比较简略。<br>这里补充一篇gpt3的讲解文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/673906325">知乎链接</a>，我认为提到很重要的一点就是gpt3出现的上下文能力(In context learning)，解释上下文能力的论文比较复杂，笔者还未学习。</p>
 <h3 id="技术创新"><a href="#技术创新" class="headerlink" title="技术创新"></a>技术创新</h3><p>这里的进化之路中涉及很多技术细节，这里就选取我认为比较重要的部分。</p>
 <ol>
-<li>zero,one,few-shot</li>
-<li>RLHF<br>参考文章:<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/677607581">知乎链接</a><br>这篇文章从强化学习的基础开始讲起，比较详细。<blockquote>
-<p>actor-critic的网络为什么这样使用?<br>建议还是看一下王树森的《深度强化学习》。简而言之，critic网络就是为了近似动作价值函数<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="2.889ex" height="2.032ex" role="img" focusable="false" viewBox="0 -704 1277.1 898"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D444" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g><g data-mml-node="mi" transform="translate(824,-150) scale(0.707)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></g></svg></mjx-container>的。<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="2.889ex" height="2.032ex" role="img" focusable="false" viewBox="0 -704 1277.1 898"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D444" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g><g data-mml-node="mi" transform="translate(824,-150) scale(0.707)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></g></svg></mjx-container>的来源就是策略梯度定理，详细内容在书本的第七章。<br>个人强化学习相关网址:<a target="_blank" rel="noopener" href="https://kevin236-max.github.io/2024/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">https://kevin236-max.github.io/2024/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</a></p>
+<li>zero,one,few-shot<br>gpt2和gpt3用了这个方法，相比之下gpt1使用预训练后再针对不同任务做微调模型的方法，这样模型的泛化能力就比较差。<br>这里都是不进行任何梯度更新的，和fine-tuning基于标注数据对模型参数进行更新不同。</li>
+<li>RLHF<br>参考文章:<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/677607581">知乎链接</a><br>这篇文章从强化学习的基础开始讲起，比较详细。<br>以下就是个人认为需要关注的技术要点<blockquote>
+<p>actor-critic的网络为什么这样使用?<br>建议还是看一下王树森的《深度强化学习》。简而言之，critic网络就是为了近似动作价值函数<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="2.889ex" height="2.032ex" role="img" focusable="false" viewBox="0 -704 1277.1 898"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D444" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g><g data-mml-node="mi" transform="translate(824,-150) scale(0.707)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></g></svg></mjx-container>的。<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="2.889ex" height="2.032ex" role="img" focusable="false" viewBox="0 -704 1277.1 898"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D444" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g><g data-mml-node="mi" transform="translate(824,-150) scale(0.707)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></g></svg></mjx-container>的来源就是策略梯度定理，详细内容在书本的第七章。<br>个人强化学习相关网址:<a target="_blank" rel="noopener" href="https://kevin236-max.github.io/2024/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">强化学习入门指南</a><br>Reference Model参考模型，用KL散度衡量输出分布的相似度<br>对于优势函数的设计过程<br>可以先学习一下PPO和GAE的内容再来看这篇文章。</p>
 </blockquote>
 </li>
+<li>codex<br>参考视频:<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iY41137Zi/?spm_id_from=333.999.0.0&amp;vd_source=cd8ea6c3c8b0bf72de553b1586baad87">b站李沐</a></li>
 </ol>
 
       
@@ -556,7 +697,7 @@ mjx-container[display="true"] + br {
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2024/03/27/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%BC%98%E5%8C%96/">大模型初步-注意力机制优化</a>
+      <a class="article-title" href="/2024/03/27/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%BC%98%E5%8C%96/">大模型初步-注意力机制优化和模型压缩</a>
     </h1>
   
 
@@ -569,7 +710,11 @@ mjx-container[display="true"] + br {
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h3 id="注意力机制优化"><a href="#注意力机制优化" class="headerlink" title="注意力机制优化"></a>注意力机制优化</h3><p>遇到的问题: Transformer的传统模型随着长度的增加，Attention部分所占用的内存和计算呈平方比增加。</p>
+<ol>
+<li>Sparse attention</li>
+</ol>
+<h3 id="模型压缩"><a href="#模型压缩" class="headerlink" title="模型压缩"></a>模型压缩</h3>
       
 
       
@@ -695,7 +840,7 @@ mjx-container[display="true"] + br {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="主流服务器"><a href="#主流服务器" class="headerlink" title="主流服务器"></a>主流服务器</h2><p>推荐autoDL，onethingAI，相对来说比较便宜，而且环境也容易配置。相比之下，colab需要梯子，虽然免费，但想有高一点的算力，colab也是要花钱买gpu的。</p>
+        <h2 id="主流服务器"><a href="#主流服务器" class="headerlink" title="主流服务器"></a>主流服务器</h2><p>推荐autoDL，onethingAI，相对来说比较便宜，而且环境也容易配置。相比之下，colab需要梯子，虽然免费，但想有高一点的算力，colab也是要花钱买gpu的。<br>本人目前没有跑过大的模型，所以模型的代码和训练数据等等的上传方式没有尝试太多，只是把代码拖拽上传，这样的方式对于占用储存空间小的文件可以，但是大的就不行了</p>
 
       
 
@@ -838,160 +983,10 @@ mjx-container[display="true"] + br {
 
 
   
-    <article id="post-强化学习总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">强化学习总结</a>
-    </h1>
-  
-
-        
-        <a href="/2024/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2024-03-12T06:18:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-03-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、学习资料"><a href="#一、学习资料" class="headerlink" title="一、学习资料"></a>一、学习资料</h2><h3 id="网络课程"><a href="#网络课程" class="headerlink" title="网络课程"></a>网络课程</h3><p>本人在b站上看过吴恩达，莫烦python，台大李宏毅，王树森等人有关强化学习方面的课。从个人的角度来说最推荐王树森的课。</p>
-<p>李宏毅的口音以及课程录制的质量可能对部分人没有那么适应，吴恩达的课对英语不够好的人来说听起来效率没有那么高(我个人不怎么喜欢看中英字幕)，莫烦python有许多简单的强化学习的实践项目，但是对于强化学习这部分内容的讲解过于简单。</p>
-<p>然后，来说一下王树森课程的优势。首先是口音清晰，这一点是很多b站课程都做不到的事情。其次，讲解的逻辑很严谨，基本概念会反复出现在每一个part里面。最后，有完整数学证明推导过程，而且讲得很容易让人听懂。</p>
-<pre><code>课程地址：https://www.bilibili.com/video/BV12o4y197US/?spm_id_from=333.337.search-card.all.click&amp;vd_source=cd8ea6c3c8b0bf72de553b1586baad87
-</code></pre><h3 id="书目"><a href="#书目" class="headerlink" title="书目"></a>书目</h3><p>这里还是推荐王树森的《深度强化学习》</p>
-<pre><code>下载地址：https://github.com/wangshusen/DRL/blob/master/Notes_CN/DRL.pdf
-</code></pre><p>复旦邱锡鹏老师的《神经网络与深度学习》也可以去看，当然我认为王树森的书最容易理解</p>
-<pre><code>下载地址：https://nndl.github.io/
-</code></pre><h3 id="论文"><a href="#论文" class="headerlink" title="论文"></a>论文</h3><p>未完待续~~~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/03/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
-  
-
-        
-        <a href="/2024/03/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2024-03-12T03:44:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-03-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本来想着学期初期比较有空，正好想起来去建一个网站总结自己csai学习的过程。所以我的第一篇博客文章就是关于如何建一个简单的网站，当然域名配置的事情目前还没有整。</p>
-<p>当然在学习建之前，需要想通一个问题，为什么要建立自己的博客。于我而言的意义写在我的<a target="_blank" rel="noopener" href="https://kevin236-max.github.io/home/">个人主页</a>上了。当然，我也想过另一个问题，现在已经有强大的chatgpt4了，有什么不会的问题直接问chat不就可以了？考虑到这一点，我的个人博客就不会涉及到很多具体的知识点，而是处理一些问题优质的资料推荐。<br><!-- 每个人对此的认识和想法或许会有不同，也可能处于不同角度来做这样一件事情 --></p>
-<p>这里我建立博客完全是按照这个b站视频的步骤完成的，这个视频说得非常详细。</p>
-<pre><code>视频地址：https://www.bilibili.com/video/BV1Yb411a7ty/?spm_id_from=333.337.search-card.all.click
-</code></pre><p>然后，我们就可以基于视频中所用的模版进一步优化完善自己的界面，主要是关于_config.yml文件的修改，这里我基本上没有再查找别的资料，而是直接问chatgpt逐步完善了功能，例如：头像，评论等等。<br>这里就提一个要点，修改都要在source文件下进行修改，然后通过git bash提交上去。最开始我很傻的修改了.deploy_git，结果发现在git bash上执行hexo g命令以后没有被提交上去。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ol>
-<li>如果出现了这种报错<br>FATAL Something’s wrong. Maybe you can find the solution here: <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">https://hexo.io/docs/troubleshooting.html</a><br>Error: Spawn failed<br> at ChildProcess.<anonymous> (/Users/xiangxiangyongan/blog/node_modules/_hexo-util@1.5.0@hexo-util/lib/spawn.js:51:21)<br> at ChildProcess.emit (events.js:210:5)<br> at Process.ChildProcess._handle.onexit (internal/child_process.js:272:12)<br> <code>参考网址：https://blog.csdn.net/qq_45020818/article/details/126949337</code></li>
-<li>如果markdown上用latex的代码无法被generate<br><code>文章地址：https://blog.51cto.com/AomanHao/6185050</code><br>注意我们这里用的是yilia的主题，如果用的是其他主题，请参考其他主题对应的方法，因为不同模版主题中的_config.yml文件不同</li>
-</ol>
-<p>未完待续~~~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/03/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
