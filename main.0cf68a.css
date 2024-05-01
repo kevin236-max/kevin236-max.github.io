@@ -985,25 +985,37 @@ body {
 	text-decoration:underline
 }
 pre .comment {
-	color:lightgreen
+	color:#787b8099
 }
-pre .class .params,pre .function .keyword,pre .keyword {
-	color:#66d9ef
+pre .class .params,pre .params {
+	color:#a37acc
 }
-pre .css .value,pre .doctype,pre .function,pre .params,pre .tag {
+pre .function .keyword,pre .keyword {
+	color:#fa8d3e
+}
+pre .css .value,pre .doctype,pre .tag {
 	color:#fff
 }
 pre .at_rule,pre .at_rule .keyword,pre .css~* .tag,pre .preprocessor,pre .preprocessor .keyword,pre .title {
-	color:#f92672
+	color:#55b4d4
 }
-pre .attribute,pre .built_in,pre .class,pre .css~* .class,pre .function .title {
+pre .attribute {
+	color:#f2ae49
+}
+pre .built_in,pre .class,pre .css~* .class {
 	color:#a6e22e
 }
-pre .string,pre .value {
+pre .function .title,pre .function {
+	color:#f2ae49
+}
+pre .string {
+	color:#86b300
+}
+pre .value {
 	color:#e6db74
 }
 pre .number {
-	color:#7163d7
+	color:#a37acc
 }
 pre .css~* .id,pre .id {
 	color:#fd971f
