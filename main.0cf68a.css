@@ -932,7 +932,7 @@ body {
 }
 .article-entry .highlight .gutter pre .line {
 	text-shadow:none;
-	color:OrangeRed
+	color:hwb(144 0% 0% / 0.21)
 }
 .article-entry .highlight .line {
 	color:#fff;
@@ -946,6 +946,7 @@ body {
 	background:#272822;
 	padding:15px 20px 15px 0
 }
+
 .article-entry .gist .gist-file {
 	border:none;
 	font-family:Source Code Pro,Consolas,Monaco,Menlo,monospace;
@@ -976,6 +977,9 @@ body {
 	padding:0;
 	margin-top:1em;
 	margin-left:20px
+}
+.entity-name {
+	color: #399ee6
 }
 .article-entry .gist .gist-file .gist-meta a {
 	color:#258fb8;
