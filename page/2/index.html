@@ -292,7 +292,7 @@ mjx-container[display="true"] + br {
 </code></pre><h2 id="二、知识要点"><a href="#二、知识要点" class="headerlink" title="二、知识要点"></a>二、知识要点</h2><h3 id="模型搭建阶段"><a href="#模型搭建阶段" class="headerlink" title="模型搭建阶段"></a>模型搭建阶段</h3><ol>
 <li>在normal上的操作与transformer不同，llama2用的是RMSNorm方法（注意这里是对整个句子规范化，不是对一个词向量进行规范化）<br>为什么要规范化？</li>
 <li>linear层产生多头注意力Q,K,V矩阵</li>
-<li>ROPE 操作： 通过绝对位置编码的方式实现了相对位置编码<br>绝对位置编码—&gt;旋转位置编码<br>具体证明和介绍的文章：<code>https://zhuanlan.zhihu.com/p/642884818</code>   涉及到的都是基本矩阵和复变函数知识</li>
+<li>ROPE 操作： 通过绝对位置编码的方式实现了相对位置编码<br>绝对位置编码—&gt;旋转位置编码<br>具体证明和介绍的文章：<a href="tps://zhuanlan.zhihu.com/p/642884818">https://zhuanlan.zhihu.com/p/642884818</a>   涉及到的都是基本矩阵和复变函数知识</li>
 <li>为什么需要mask操作？</li>
 <li>KVcache的意义<br>事实上存储KV矩阵不现实</li>
 <li>使用MQA是个更好的选择，比单一的KV矩阵有更高的精度，比一个多头存一个KV矩阵消耗更少的空间</li>
