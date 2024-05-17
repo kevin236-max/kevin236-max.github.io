@@ -32,119 +32,7 @@
 
   
 
-<meta name="generator" content="Hexo 7.1.1"><style>mjx-container[jax="SVG"] {
-  direction: ltr;
-}
-
-mjx-container[jax="SVG"] > svg {
-  overflow: visible;
-}
-
-mjx-container[jax="SVG"][display="true"] {
-  display: block;
-  text-align: center;
-  margin: 1em 0;
-}
-
-mjx-container[jax="SVG"][justify="left"] {
-  text-align: left;
-}
-
-mjx-container[jax="SVG"][justify="right"] {
-  text-align: right;
-}
-
-g[data-mml-node="merror"] > g {
-  fill: red;
-  stroke: red;
-}
-
-g[data-mml-node="merror"] > rect[data-background] {
-  fill: yellow;
-  stroke: none;
-}
-
-g[data-mml-node="mtable"] > line[data-line] {
-  stroke-width: 70px;
-  fill: none;
-}
-
-g[data-mml-node="mtable"] > rect[data-frame] {
-  stroke-width: 70px;
-  fill: none;
-}
-
-g[data-mml-node="mtable"] > .mjx-dashed {
-  stroke-dasharray: 140;
-}
-
-g[data-mml-node="mtable"] > .mjx-dotted {
-  stroke-linecap: round;
-  stroke-dasharray: 0,140;
-}
-
-g[data-mml-node="mtable"] > svg {
-  overflow: visible;
-}
-
-[jax="SVG"] mjx-tool {
-  display: inline-block;
-  position: relative;
-  width: 0;
-  height: 0;
-}
-
-[jax="SVG"] mjx-tool > mjx-tip {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-mjx-tool > mjx-tip {
-  display: inline-block;
-  padding: .2em;
-  border: 1px solid #888;
-  font-size: 70%;
-  background-color: #F8F8F8;
-  color: black;
-  box-shadow: 2px 2px 5px #AAAAAA;
-}
-
-g[data-mml-node="maction"][data-toggle] {
-  cursor: pointer;
-}
-
-mjx-status {
-  display: block;
-  position: fixed;
-  left: 1em;
-  bottom: 1em;
-  min-width: 25%;
-  padding: .2em .4em;
-  border: 1px solid #888;
-  font-size: 90%;
-  background-color: #F8F8F8;
-  color: black;
-}
-
-foreignObject[data-mjx-xml] {
-  font-family: initial;
-  line-height: normal;
-  overflow: visible;
-}
-
-.MathJax path {
-  stroke-width: 3;
-}
-
-mjx-container[display="true"] {
-  overflow: auto hidden;
-}
-
-mjx-container[display="true"] + br {
-  display: none;
-}
-</style></head>
+<meta name="generator" content="Hexo 7.1.1"></head>
 
 <body>
   <div id="container" q-class="show:isCtnShow">
@@ -263,6 +151,74 @@ mjx-container[display="true"] + br {
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-大模型初步-lora微调技术" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/05/17/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-lora%E5%BE%AE%E8%B0%83%E6%8A%80%E6%9C%AF/">大模型初步-lora微调技术</a>
+    </h1>
+  
+
+        
+        <a href="/2024/05/17/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-lora%E5%BE%AE%E8%B0%83%E6%8A%80%E6%9C%AF/" class="archive-article-date">
+  	<time datetime="2024-05-17T12:19:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>lora的技术讲解在之前llama2的文章中已经涉及到，这里不赘述，直接看microsoft的源码实现(未来可能考虑将llama2的文章拆解到各个部分)<br>代码地址: <a target="_blank" rel="noopener" href="https://github.com/microsoft/LoRA/tree/main">https://github.com/microsoft/LoRA/tree/main</a></p>
+<p>细节: 在这篇<a target="_blank" rel="noopener" href="https://my.oschina.net/HuggingFace/blog/10091976">文章</a>提到了</p>
+<blockquote>
+<p>（严格讲，对不同算子采用不同的 A 初始化方式，例如，Linear 算子采用 kaiming_uniform，对于 Embedding 算子采用 normal 高斯分布）</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Optional</span>, <span class="type">List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LoRALayer</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"></span></span><br><span class="line"><span class="params">        self, </span></span><br><span class="line"><span class="params">        r: <span class="built_in">int</span>, </span></span><br><span class="line"><span class="params">        lora_alpha: <span class="built_in">int</span>, </span></span><br><span class="line"><span class="params">        lora_dropout: <span class="built_in">float</span>,</span></span><br><span class="line"><span class="params">        merge_weights: <span class="built_in">bool</span>,</span></span><br><span class="line"><span class="params">    </span>):</span><br><span class="line">        self.r = r</span><br><span class="line">        self.lora_alpha = lora_alpha</span><br><span class="line">        <span class="comment"># Optional dropout </span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;这里lambda中输出等于输入，相当于不执行丢弃神经元操作，将dropout当成了一个可选项&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> lora_dropout &gt; <span class="number">0.</span>:</span><br><span class="line">            self.lora_dropout = nn.Dropout(p=lora_dropout)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.lora_dropout = <span class="keyword">lambda</span> x: x</span><br><span class="line">        <span class="comment"># Mark the weight as unmerged</span></span><br><span class="line">        self.merged = <span class="literal">False</span></span><br><span class="line">        self.merge_weights = merge_weights</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Embedding</span>(nn.Embedding, LoRALayer):</span><br><span class="line">    <span class="comment"># LoRA implemented in a dense layer</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"></span></span><br><span class="line"><span class="params">        self,</span></span><br><span class="line"><span class="params">        num_embeddings: <span class="built_in">int</span>,</span></span><br><span class="line"><span class="params">        embedding_dim: <span class="built_in">int</span>,</span></span><br><span class="line"><span class="params">        r: <span class="built_in">int</span> = <span class="number">0</span>,  <span class="comment"># 表示低秩矩阵的秩</span></span></span><br><span class="line"><span class="params">        lora_alpha: <span class="built_in">int</span> = <span class="number">1</span>,</span></span><br><span class="line"><span class="params">        merge_weights: <span class="built_in">bool</span> = <span class="literal">True</span>,</span></span><br><span class="line"><span class="params">        **kwargs</span></span><br><span class="line"><span class="params">    </span>):</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    这里使用多重继承的意义:</span></span><br><span class="line"><span class="string">    这样做的目的是将 nn.Embedding 和 LoRALayer 的功能结合起来，创建一个同时具有嵌入层和LoRA层功能的类</span></span><br><span class="line"><span class="string">    通过继承这两个类，Embedding 类可以同时拥有 nn.Embedding 的嵌入功能和 LoRALayer 的低秩自适应功能，使得嵌入层可以通过LoRA技术进行高效的微调</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">        nn.Embedding.__init__(self, num_embeddings, embedding_dim, **kwargs)</span><br><span class="line">        LoRALayer.__init__(self, r=r, lora_alpha=lora_alpha, lora_dropout=<span class="number">0</span>,</span><br><span class="line">                           merge_weights=merge_weights)</span><br><span class="line">        <span class="comment"># Actual trainable parameters</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        这里self.weight是从nn.Embedding继承来的属性，代表了嵌入层的权重矩阵</span></span><br><span class="line"><span class="string">        new_zeros 方法是 PyTorch 张量的一种方法，用于创建一个与原始张量具有相同数据类型和设备（如 CPU 或 GPU）的新张量，并且这个新张量的所有元素都被初始化为 0</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> r &gt; <span class="number">0</span>:</span><br><span class="line">            self.lora_A = nn.Parameter(self.weight.new_zeros((r, num_embeddings)))</span><br><span class="line">            self.lora_B = nn.Parameter(self.weight.new_zeros((embedding_dim, r)))</span><br><span class="line">            self.scaling = self.lora_alpha / self.r  <span class="comment"># 缩放因子，用于调整 LoRA 更新的大小</span></span><br><span class="line">            <span class="comment"># Freezing the pre-trained weight matrix</span></span><br><span class="line">            <span class="string">&#x27;&#x27;&#x27;这里对于原来的矩阵不变化，不更新梯度&#x27;&#x27;&#x27;</span></span><br><span class="line">            self.weight.requires_grad = <span class="literal">False</span></span><br><span class="line">        self.reset_parameters()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">reset_parameters</span>(<span class="params">self</span>):</span><br><span class="line">        nn.Embedding.reset_parameters(self)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">hasattr</span>(self, <span class="string">&#x27;lora_A&#x27;</span>):</span><br><span class="line">            <span class="comment"># initialize A the same way as the default for nn.Linear and B to zero</span></span><br><span class="line">            nn.init.zeros_(self.lora_A)</span><br><span class="line">            nn.init.normal_(self.lora_B)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">self, mode: <span class="built_in">bool</span> = <span class="literal">True</span></span>):</span><br><span class="line">        nn.Embedding.train(self, mode)</span><br><span class="line">        <span class="keyword">if</span> mode:</span><br><span class="line">            <span class="keyword">if</span> self.merge_weights <span class="keyword">and</span> self.merged:</span><br><span class="line">                <span class="comment"># Make sure that the weights are not merged</span></span><br><span class="line">                <span class="keyword">if</span> self.r &gt; <span class="number">0</span>:</span><br><span class="line">                    self.weight.data -= (self.lora_B @ self.lora_A).transpose(<span class="number">0</span>, <span class="number">1</span>) * self.scaling</span><br><span class="line">                self.merged = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> self.merge_weights <span class="keyword">and</span> <span class="keyword">not</span> self.merged:</span><br><span class="line">                <span class="comment"># Merge the weights and mark it</span></span><br><span class="line">                <span class="keyword">if</span> self.r &gt; <span class="number">0</span>:</span><br><span class="line">                    self.weight.data += (self.lora_B @ self.lora_A).transpose(<span class="number">0</span>, <span class="number">1</span>) * self.scaling</span><br><span class="line">                self.merged = <span class="literal">True</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x: torch.Tensor</span>):</span><br><span class="line">        <span class="keyword">if</span> self.r &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> self.merged:</span><br><span class="line">            result = nn.Embedding.forward(self, x)</span><br><span class="line">            after_A = F.embedding(</span><br><span class="line">                x, self.lora_A.transpose(<span class="number">0</span>, <span class="number">1</span>), self.padding_idx, self.max_norm,</span><br><span class="line">                self.norm_type, self.scale_grad_by_freq, self.sparse</span><br><span class="line">            )</span><br><span class="line">            result += (after_A @ self.lora_B.transpose(<span class="number">0</span>, <span class="number">1</span>)) * self.scaling</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> nn.Embedding.forward(self, x)</span><br><span class="line">            </span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Linear</span>(nn.Linear, LoRALayer):</span><br><span class="line">    <span class="comment"># LoRA implemented in a dense layer</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"></span></span><br><span class="line"><span class="params">        self, </span></span><br><span class="line"><span class="params">        in_features: <span class="built_in">int</span>, </span></span><br><span class="line"><span class="params">        out_features: <span class="built_in">int</span>, </span></span><br><span class="line"><span class="params">        r: <span class="built_in">int</span> = <span class="number">0</span>, </span></span><br><span class="line"><span class="params">        lora_alpha: <span class="built_in">int</span> = <span class="number">1</span>, </span></span><br><span class="line"><span class="params">        lora_dropout: <span class="built_in">float</span> = <span class="number">0.</span>,</span></span><br><span class="line"><span class="params">        fan_in_fan_out: <span class="built_in">bool</span> = <span class="literal">False</span>, <span class="comment"># Set this to True if the layer to replace stores weight like (fan_in, fan_out)</span></span></span><br><span class="line"><span class="params">        merge_weights: <span class="built_in">bool</span> = <span class="literal">True</span>,</span></span><br><span class="line"><span class="params">        **kwargs</span></span><br><span class="line"><span class="params">    </span>):</span><br><span class="line">        nn.Linear.__init__(self, in_features, out_features, **kwargs)</span><br><span class="line">        LoRALayer.__init__(self, r=r, lora_alpha=lora_alpha, lora_dropout=lora_dropout,</span><br><span class="line">                           merge_weights=merge_weights)</span><br><span class="line"></span><br><span class="line">        self.fan_in_fan_out = fan_in_fan_out</span><br><span class="line">        <span class="comment"># Actual trainable parameters</span></span><br><span class="line">        <span class="keyword">if</span> r &gt; <span class="number">0</span>:</span><br><span class="line">            self.lora_A = nn.Parameter(self.weight.new_zeros((r, in_features)))</span><br><span class="line">            self.lora_B = nn.Parameter(self.weight.new_zeros((out_features, r)))</span><br><span class="line">            self.scaling = self.lora_alpha / self.r</span><br><span class="line">            <span class="comment"># Freezing the pre-trained weight matrix</span></span><br><span class="line">            self.weight.requires_grad = <span class="literal">False</span></span><br><span class="line">        self.reset_parameters()</span><br><span class="line">        <span class="keyword">if</span> fan_in_fan_out:</span><br><span class="line">            self.weight.data = self.weight.data.transpose(<span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">reset_parameters</span>(<span class="params">self</span>):</span><br><span class="line">        nn.Linear.reset_parameters(self)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">hasattr</span>(self, <span class="string">&#x27;lora_A&#x27;</span>):</span><br><span class="line">            <span class="comment"># initialize B the same way as the default for nn.Linear and A to zero</span></span><br><span class="line">            <span class="comment"># this is different than what is described in the paper but should not affect performance</span></span><br><span class="line">            nn.init.kaiming_uniform_(self.lora_A, a=math.sqrt(<span class="number">5</span>))</span><br><span class="line">            nn.init.zeros_(self.lora_B)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">self, mode: <span class="built_in">bool</span> = <span class="literal">True</span></span>):</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">T</span>(<span class="params">w</span>):</span><br><span class="line">            <span class="keyword">return</span> w.transpose(<span class="number">0</span>, <span class="number">1</span>) <span class="keyword">if</span> self.fan_in_fan_out <span class="keyword">else</span> w</span><br><span class="line">        nn.Linear.train(self, mode)</span><br><span class="line">        <span class="keyword">if</span> mode:</span><br><span class="line">            <span class="keyword">if</span> self.merge_weights <span class="keyword">and</span> self.merged:</span><br><span class="line">                <span class="comment"># Make sure that the weights are not merged</span></span><br><span class="line">                <span class="keyword">if</span> self.r &gt; <span class="number">0</span>:</span><br><span class="line">                    self.weight.data -= T(self.lora_B @ self.lora_A) * self.scaling</span><br><span class="line">                self.merged = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> self.merge_weights <span class="keyword">and</span> <span class="keyword">not</span> self.merged:</span><br><span class="line">                <span class="comment"># Merge the weights and mark it</span></span><br><span class="line">                <span class="keyword">if</span> self.r &gt; <span class="number">0</span>:</span><br><span class="line">                    self.weight.data += T(self.lora_B @ self.lora_A) * self.scaling</span><br><span class="line">                self.merged = <span class="literal">True</span>       </span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x: torch.Tensor</span>):</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">T</span>(<span class="params">w</span>):</span><br><span class="line">            <span class="keyword">return</span> w.transpose(<span class="number">0</span>, <span class="number">1</span>) <span class="keyword">if</span> self.fan_in_fan_out <span class="keyword">else</span> w</span><br><span class="line">        <span class="keyword">if</span> self.r &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> self.merged:</span><br><span class="line">            result = F.linear(x, T(self.weight), bias=self.bias)            </span><br><span class="line">            result += (self.lora_dropout(x) @ self.lora_A.transpose(<span class="number">0</span>, <span class="number">1</span>) @ self.lora_B.transpose(<span class="number">0</span>, <span class="number">1</span>)) * self.scaling</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> F.linear(x, T(self.weight), bias=self.bias)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MergedLinear</span>(nn.Linear, LoRALayer):</span><br><span class="line">    <span class="comment"># LoRA implemented in a dense layer</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"></span></span><br><span class="line"><span class="params">        self, </span></span><br><span class="line"><span class="params">        in_features: <span class="built_in">int</span>, </span></span><br><span class="line"><span class="params">        out_features: <span class="built_in">int</span>, </span></span><br><span class="line"><span class="params">        r: <span class="built_in">int</span> = <span class="number">0</span>, </span></span><br><span class="line"><span class="params">        lora_alpha: <span class="built_in">int</span> = <span class="number">1</span>, </span></span><br><span class="line"><span class="params">        lora_dropout: <span class="built_in">float</span> = <span class="number">0.</span>,</span></span><br><span class="line"><span class="params">        enable_lora: <span class="type">List</span>[<span class="built_in">bool</span>] = [<span class="literal">False</span>],</span></span><br><span class="line"><span class="params">        fan_in_fan_out: <span class="built_in">bool</span> = <span class="literal">False</span>,</span></span><br><span class="line"><span class="params">        merge_weights: <span class="built_in">bool</span> = <span class="literal">True</span>,</span></span><br><span class="line"><span class="params">        **kwargs</span></span><br><span class="line"><span class="params">    </span>):</span><br><span class="line">        nn.Linear.__init__(self, in_features, out_features, **kwargs)</span><br><span class="line">        LoRALayer.__init__(self, r=r, lora_alpha=lora_alpha, lora_dropout=lora_dropout,</span><br><span class="line">                           merge_weights=merge_weights)</span><br><span class="line">        <span class="keyword">assert</span> out_features % <span class="built_in">len</span>(enable_lora) == <span class="number">0</span>, \</span><br><span class="line">            <span class="string">&#x27;The length of enable_lora must divide out_features&#x27;</span></span><br><span class="line">        self.enable_lora = enable_lora</span><br><span class="line">        self.fan_in_fan_out = fan_in_fan_out</span><br><span class="line">        <span class="comment"># Actual trainable parameters</span></span><br><span class="line">        <span class="keyword">if</span> r &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="built_in">any</span>(enable_lora):</span><br><span class="line">            self.lora_A = nn.Parameter(</span><br><span class="line">                self.weight.new_zeros((r * <span class="built_in">sum</span>(enable_lora), in_features)))</span><br><span class="line">            self.lora_B = nn.Parameter(</span><br><span class="line">                self.weight.new_zeros((out_features // <span class="built_in">len</span>(enable_lora) * <span class="built_in">sum</span>(enable_lora), r))</span><br><span class="line">            ) <span class="comment"># weights for Conv1D with groups=sum(enable_lora)</span></span><br><span class="line">            self.scaling = self.lora_alpha / self.r</span><br><span class="line">            <span class="comment"># Freezing the pre-trained weight matrix</span></span><br><span class="line">            self.weight.requires_grad = <span class="literal">False</span></span><br><span class="line">            <span class="comment"># Compute the indices</span></span><br><span class="line">            self.lora_ind = self.weight.new_zeros(</span><br><span class="line">                (out_features, ), dtype=torch.<span class="built_in">bool</span></span><br><span class="line">            ).view(<span class="built_in">len</span>(enable_lora), -<span class="number">1</span>)</span><br><span class="line">            self.lora_ind[enable_lora, :] = <span class="literal">True</span></span><br><span class="line">            self.lora_ind = self.lora_ind.view(-<span class="number">1</span>)</span><br><span class="line">        self.reset_parameters()</span><br><span class="line">        <span class="keyword">if</span> fan_in_fan_out:</span><br><span class="line">            self.weight.data = self.weight.data.transpose(<span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">reset_parameters</span>(<span class="params">self</span>):</span><br><span class="line">        nn.Linear.reset_parameters(self)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">hasattr</span>(self, <span class="string">&#x27;lora_A&#x27;</span>):</span><br><span class="line">            <span class="comment"># initialize A the same way as the default for nn.Linear and B to zero</span></span><br><span class="line">            nn.init.kaiming_uniform_(self.lora_A, a=math.sqrt(<span class="number">5</span>))</span><br><span class="line">            nn.init.zeros_(self.lora_B)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">zero_pad</span>(<span class="params">self, x</span>):</span><br><span class="line">        result = x.new_zeros((<span class="built_in">len</span>(self.lora_ind), *x.shape[<span class="number">1</span>:]))</span><br><span class="line">        result[self.lora_ind] = x</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">merge_AB</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">T</span>(<span class="params">w</span>):</span><br><span class="line">            <span class="keyword">return</span> w.transpose(<span class="number">0</span>, <span class="number">1</span>) <span class="keyword">if</span> self.fan_in_fan_out <span class="keyword">else</span> w</span><br><span class="line">        delta_w = F.conv1d(</span><br><span class="line">            self.lora_A.unsqueeze(<span class="number">0</span>), </span><br><span class="line">            self.lora_B.unsqueeze(-<span class="number">1</span>), </span><br><span class="line">            groups=<span class="built_in">sum</span>(self.enable_lora)</span><br><span class="line">        ).squeeze(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> T(self.zero_pad(delta_w))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">self, mode: <span class="built_in">bool</span> = <span class="literal">True</span></span>):</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">T</span>(<span class="params">w</span>):</span><br><span class="line">            <span class="keyword">return</span> w.transpose(<span class="number">0</span>, <span class="number">1</span>) <span class="keyword">if</span> self.fan_in_fan_out <span class="keyword">else</span> w</span><br><span class="line">        nn.Linear.train(self, mode)</span><br><span class="line">        <span class="keyword">if</span> mode:</span><br><span class="line">            <span class="keyword">if</span> self.merge_weights <span class="keyword">and</span> self.merged:</span><br><span class="line">                <span class="comment"># Make sure that the weights are not merged</span></span><br><span class="line">                <span class="keyword">if</span> self.r &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="built_in">any</span>(self.enable_lora):</span><br><span class="line">                    self.weight.data -= self.merge_AB() * self.scaling</span><br><span class="line">                self.merged = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> self.merge_weights <span class="keyword">and</span> <span class="keyword">not</span> self.merged:</span><br><span class="line">                <span class="comment"># Merge the weights and mark it</span></span><br><span class="line">                <span class="keyword">if</span> self.r &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="built_in">any</span>(self.enable_lora):</span><br><span class="line">                    self.weight.data += self.merge_AB() * self.scaling</span><br><span class="line">                self.merged = <span class="literal">True</span>        </span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x: torch.Tensor</span>):</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">T</span>(<span class="params">w</span>):</span><br><span class="line">            <span class="keyword">return</span> w.transpose(<span class="number">0</span>, <span class="number">1</span>) <span class="keyword">if</span> self.fan_in_fan_out <span class="keyword">else</span> w</span><br><span class="line">        <span class="keyword">if</span> self.merged:</span><br><span class="line">            <span class="keyword">return</span> F.linear(x, T(self.weight), bias=self.bias)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            result = F.linear(x, T(self.weight), bias=self.bias)</span><br><span class="line">            <span class="keyword">if</span> self.r &gt; <span class="number">0</span>:</span><br><span class="line">                result += self.lora_dropout(x) @ T(self.merge_AB().T) * self.scaling</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConvLoRA</span>(nn.Module, LoRALayer):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, conv_module, in_channels, out_channels, kernel_size, r=<span class="number">0</span>, lora_alpha=<span class="number">1</span>, lora_dropout=<span class="number">0.</span>, merge_weights=<span class="literal">True</span>, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>(ConvLoRA, self).__init__()</span><br><span class="line">        self.conv = conv_module(in_channels, out_channels, kernel_size, **kwargs)</span><br><span class="line">        LoRALayer.__init__(self, r=r, lora_alpha=lora_alpha, lora_dropout=lora_dropout, merge_weights=merge_weights)</span><br><span class="line">        <span class="keyword">assert</span> <span class="built_in">isinstance</span>(kernel_size, <span class="built_in">int</span>)</span><br><span class="line">        <span class="comment"># Actual trainable parameters</span></span><br><span class="line">        <span class="keyword">if</span> r &gt; <span class="number">0</span>:</span><br><span class="line">            self.lora_A = nn.Parameter(</span><br><span class="line">                self.conv.weight.new_zeros((r * kernel_size, in_channels * kernel_size))</span><br><span class="line">            )</span><br><span class="line">            self.lora_B = nn.Parameter(</span><br><span class="line">              self.conv.weight.new_zeros((out_channels//self.conv.groups*kernel_size, r*kernel_size))</span><br><span class="line">            )</span><br><span class="line">            self.scaling = self.lora_alpha / self.r</span><br><span class="line">            <span class="comment"># Freezing the pre-trained weight matrix</span></span><br><span class="line">            self.conv.weight.requires_grad = <span class="literal">False</span></span><br><span class="line">        self.reset_parameters()</span><br><span class="line">        self.merged = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">reset_parameters</span>(<span class="params">self</span>):</span><br><span class="line">        self.conv.reset_parameters()</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">hasattr</span>(self, <span class="string">&#x27;lora_A&#x27;</span>):</span><br><span class="line">            <span class="comment"># initialize A the same way as the default for nn.Linear and B to zero</span></span><br><span class="line">            nn.init.kaiming_uniform_(self.lora_A, a=math.sqrt(<span class="number">5</span>))</span><br><span class="line">            nn.init.zeros_(self.lora_B)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">self, mode=<span class="literal">True</span></span>):</span><br><span class="line">        <span class="built_in">super</span>(ConvLoRA, self).train(mode)</span><br><span class="line">        <span class="keyword">if</span> mode:</span><br><span class="line">            <span class="keyword">if</span> self.merge_weights <span class="keyword">and</span> self.merged:</span><br><span class="line">                <span class="keyword">if</span> self.r &gt; <span class="number">0</span>:</span><br><span class="line">                    <span class="comment"># Make sure that the weights are not merged</span></span><br><span class="line">                    self.conv.weight.data -= (self.lora_B @ self.lora_A).view(self.conv.weight.shape) * self.scaling</span><br><span class="line">                self.merged = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> self.merge_weights <span class="keyword">and</span> <span class="keyword">not</span> self.merged:</span><br><span class="line">                <span class="keyword">if</span> self.r &gt; <span class="number">0</span>:</span><br><span class="line">                    <span class="comment"># Merge the weights and mark it</span></span><br><span class="line">                    self.conv.weight.data += (self.lora_B @ self.lora_A).view(self.conv.weight.shape) * self.scaling</span><br><span class="line">                self.merged = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">if</span> self.r &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> self.merged:</span><br><span class="line">            <span class="keyword">return</span> self.conv._conv_forward(</span><br><span class="line">                x, </span><br><span class="line">                self.conv.weight + (self.lora_B @ self.lora_A).view(self.conv.weight.shape) * self.scaling,</span><br><span class="line">                self.conv.bias</span><br><span class="line">            )</span><br><span class="line">        <span class="keyword">return</span> self.conv(x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Conv2d</span>(<span class="title class_ inherited__">ConvLoRA</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>(Conv2d, self).__init__(nn.Conv2d, *args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Conv1d</span>(<span class="title class_ inherited__">ConvLoRA</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>(Conv1d, self).__init__(nn.Conv1d, *args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Can Extend to other ones like this</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Conv3d</span>(<span class="title class_ inherited__">ConvLoRA</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>(Conv3d, self).__init__(nn.Conv3d, *args, **kwargs)</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2024/05/17/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-lora%E5%BE%AE%E8%B0%83%E6%8A%80%E6%9C%AF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-大模型初步-分布式训练代码解读" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -406,12 +362,248 @@ mjx-container[display="true"] + br {
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2024/05/11/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-P-Tuning%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/">大模型初步-P-Tuning代码解析</a>
+      <a class="article-title" href="/2024/05/11/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-P-Tuning%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/">大模型初步-P-Tuning微调技术</a>
     </h1>
   
 
         
         <a href="/2024/05/11/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-P-Tuning%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/" class="archive-article-date">
+  	<time datetime="2024-05-11T15:13:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-05-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这里参考的是苏剑林对于P-Tuning的讲解，不过苏神是用keras实现的，这个框架我不是很熟悉，所以还是到peft的github官网上找相关微调的代码，看这些开源的代码，可以从中学到很多规范和代码实现思路。<br>网站地址:<a target="_blank" rel="noopener" href="https://github.com/huggingface/peft/blob/main/src/peft/tuners/p_tuning/model.py">https://github.com/huggingface/peft/blob/main/src/peft/tuners/p_tuning/model.py</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> .config <span class="keyword">import</span> PromptEncoderConfig, PromptEncoderReparameterizationType</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PromptEncoder</span>(torch.nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    The prompt encoder network that is used to generate the virtual token embeddings for p-tuning.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        config ([`PromptEncoderConfig`]): The configuration of the prompt encoder.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Example:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; from peft import PromptEncoder, PromptEncoderConfig</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; config = PromptEncoderConfig(</span></span><br><span class="line"><span class="string">    ...     peft_type=&quot;P_TUNING&quot;,</span></span><br><span class="line"><span class="string">    ...     task_type=&quot;SEQ_2_SEQ_LM&quot;,</span></span><br><span class="line"><span class="string">    ...     num_virtual_tokens=20,</span></span><br><span class="line"><span class="string">    ...     token_dim=768,</span></span><br><span class="line"><span class="string">    ...     num_transformer_submodules=1,</span></span><br><span class="line"><span class="string">    ...     num_attention_heads=12,</span></span><br><span class="line"><span class="string">    ...     num_layers=12,</span></span><br><span class="line"><span class="string">    ...     encoder_reparameterization_type=&quot;MLP&quot;,</span></span><br><span class="line"><span class="string">    ...     encoder_hidden_size=768,</span></span><br><span class="line"><span class="string">    ... )</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; prompt_encoder = PromptEncoder(config)</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    **Attributes**:</span></span><br><span class="line"><span class="string">        - **embedding** (`torch.nn.Embedding`) -- The embedding layer of the prompt encoder.</span></span><br><span class="line"><span class="string">        - **mlp_head** (`torch.nn.Sequential`) -- The MLP head of the prompt encoder if `inference_mode=False`.</span></span><br><span class="line"><span class="string">        - **lstm_head** (`torch.nn.LSTM`) -- The LSTM head of the prompt encoder if `inference_mode=False` and</span></span><br><span class="line"><span class="string">        `encoder_reparameterization_type=&quot;LSTM&quot;`.</span></span><br><span class="line"><span class="string">        - **token_dim** (`int`) -- The hidden embedding dimension of the base transformer model.</span></span><br><span class="line"><span class="string">        - **input_size** (`int`) -- The input size of the prompt encoder.</span></span><br><span class="line"><span class="string">        - **output_size** (`int`) -- The output size of the prompt encoder.</span></span><br><span class="line"><span class="string">        - **hidden_size** (`int`) -- The hidden size of the prompt encoder.</span></span><br><span class="line"><span class="string">        - **total_virtual_tokens** (`int`): The total number of virtual tokens of the</span></span><br><span class="line"><span class="string">        prompt encoder.</span></span><br><span class="line"><span class="string">        - **encoder_type** (Union[[`PromptEncoderReparameterizationType`], `str`]): The encoder type of the prompt</span></span><br><span class="line"><span class="string">          encoder.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Input shape: (`batch_size`, `total_virtual_tokens`)</span></span><br><span class="line"><span class="string">    Output shape: (`batch_size`, `total_virtual_tokens`, `token_dim`)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, config</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.token_dim = config.token_dim</span><br><span class="line">        self.input_size = self.token_dim</span><br><span class="line">        self.output_size = self.token_dim</span><br><span class="line">        self.hidden_size = config.encoder_hidden_size</span><br><span class="line">        self.total_virtual_tokens = config.num_virtual_tokens * config.num_transformer_submodules</span><br><span class="line">        self.encoder_type = config.encoder_reparameterization_type</span><br><span class="line"></span><br><span class="line">        <span class="comment"># embedding</span></span><br><span class="line">        self.embedding = torch.nn.Embedding(self.total_virtual_tokens, self.token_dim)</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;先判断是不是推理模式&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> config.inference_mode:   </span><br><span class="line">            <span class="keyword">if</span> self.encoder_type == PromptEncoderReparameterizationType.LSTM:</span><br><span class="line">                lstm_dropout = config.encoder_dropout</span><br><span class="line">                num_layers = config.encoder_num_layers</span><br><span class="line">                <span class="comment"># LSTM</span></span><br><span class="line">                self.lstm_head = torch.nn.LSTM(</span><br><span class="line">                    input_size=self.input_size,</span><br><span class="line">                    hidden_size=self.hidden_size,</span><br><span class="line">                    num_layers=num_layers,</span><br><span class="line">                    dropout=lstm_dropout,</span><br><span class="line">                    bidirectional=<span class="literal">True</span>,</span><br><span class="line">                    batch_first=<span class="literal">True</span>,</span><br><span class="line">                )</span><br><span class="line"></span><br><span class="line">                self.mlp_head = torch.nn.Sequential(</span><br><span class="line">                    torch.nn.Linear(self.hidden_size * <span class="number">2</span>, self.hidden_size * <span class="number">2</span>),</span><br><span class="line">                    torch.nn.ReLU(),</span><br><span class="line">                    torch.nn.Linear(self.hidden_size * <span class="number">2</span>, self.output_size),</span><br><span class="line">                )</span><br><span class="line"></span><br><span class="line">            <span class="keyword">elif</span> self.encoder_type == PromptEncoderReparameterizationType.MLP:</span><br><span class="line">                encoder_num_layers_default = PromptEncoderConfig.encoder_num_layers</span><br><span class="line">                <span class="keyword">if</span> config.encoder_num_layers != encoder_num_layers_default:</span><br><span class="line">                    warnings.warn(</span><br><span class="line">                        <span class="string">f&quot;for <span class="subst">&#123;self.encoder_type.value&#125;</span>, the argument `encoder_num_layers` is ignored. &quot;</span></span><br><span class="line">                        <span class="string">f&quot;Exactly <span class="subst">&#123;encoder_num_layers_default&#125;</span> MLP layers are used.&quot;</span></span><br><span class="line">                    )</span><br><span class="line">                layers = [</span><br><span class="line">                    torch.nn.Linear(self.input_size, self.hidden_size),</span><br><span class="line">                    torch.nn.ReLU(),</span><br><span class="line">                    torch.nn.Linear(self.hidden_size, self.hidden_size),</span><br><span class="line">                    torch.nn.ReLU(),</span><br><span class="line">                    torch.nn.Linear(self.hidden_size, self.output_size),</span><br><span class="line">                ]</span><br><span class="line">                <span class="string">&#x27;&#x27;&#x27;将列表解包为单独的参数传入&#x27;&#x27;&#x27;</span></span><br><span class="line">                self.mlp_head = torch.nn.Sequential(*layers) </span><br><span class="line"></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">raise</span> ValueError(<span class="string">&quot;Prompt encoder type not recognized. Please use one of MLP (recommended) or LSTM.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, indices</span>):</span><br><span class="line">        input_embeds = self.embedding(indices)</span><br><span class="line">        <span class="keyword">if</span> self.encoder_type == PromptEncoderReparameterizationType.LSTM:</span><br><span class="line">            <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">            这里的在经过lstm_head后返回的是一个元组，会包含两个元素：第一个元素是所有时间步的输出（output），第二个元素是最后一个时间步的隐藏状态和细胞状态（hidden）</span></span><br><span class="line"><span class="string">            如果这里使用的是双向lstm，最后一维是768*2，如果是单向lstm，最后一维的大小就是768</span></span><br><span class="line"><span class="string">            &#x27;&#x27;&#x27;</span></span><br><span class="line">            output_embeds = self.mlp_head(self.lstm_head(input_embeds)[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">elif</span> self.encoder_type == PromptEncoderReparameterizationType.MLP:</span><br><span class="line">            output_embeds = self.mlp_head(input_embeds)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&quot;Prompt encoder type not recognized. Please use one of MLP (recommended) or LSTM.&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> output_embeds</span><br></pre></td></tr></table></figure>
+<!-- ```python
+import numpy as np
+from bert4keras.backend import keras, K
+from bert4keras.layers import Loss, Embedding
+from bert4keras.tokenizers import Tokenizer
+from bert4keras.models import build_transformer_model, BERT
+from bert4keras.optimizers import Adam
+from bert4keras.snippets import sequence_padding, DataGenerator
+from bert4keras.snippets import open
+from keras.layers import Lambda, Dense
+
+maxlen = 128
+batch_size = 32
+config_path = '/root/kg/bert/chinese_nezha_gpt_L-12_H-768_A-12/config.json'
+checkpoint_path = '/root/kg/bert/chinese_nezha_gpt_L-12_H-768_A-12/gpt.ckpt'
+dict_path = '/root/kg/bert/chinese_nezha_gpt_L-12_H-768_A-12/vocab.txt'
+
+def load_data(filename):
+    D = []
+    with open(filename, encoding='utf-8') as f:
+        for l in f:
+            '''l.strip()去除行首尾的空白字符（如空格、换行符等），split('\t')根据制表符\t将行分割成两部分，进行数值计算'''
+            text, label = l.strip().split('\t')
+            D.append((text, int(label)))
+    return D
+
+train_data = load_data('datasets/sentiment/sentiment.train.data')
+valid_data = load_data('datasets/sentiment/sentiment.valid.data')
+test_data = load_data('datasets/sentiment/sentiment.test.data')
+
+'''模拟标注和非标注数据，可以模拟一个数据稀缺的场景'''
+train_frac = 0.01  # 标注数据的比例
+num_labeled = int(len(train_data) * train_frac)
+unlabeled_data = [(t, 2) for t, l in train_data[num_labeled:]]
+train_data = train_data[:num_labeled]
+# train_data = train_data + unlabeled_data
+
+'''应用分词器，转换为小写形式'''
+tokenizer = Tokenizer(dict_path, do_lower_case=True)
+
+# 对应的任务描述
+'''pos_id表示正面情感，neg_id表示负面情感'''
+desc = ['[unused%s]' % i for i in range(1, 9)]
+desc_ids = [tokenizer.token_to_id(t) for t in desc]
+pos_id = tokenizer.token_to_id(u'很')
+neg_id = tokenizer.token_to_id(u'不')
+``` -->
+<!-- ```python
+class data_generator(DataGenerator):
+    """数据生成器，注意这里的token_ids组合方式"""
+    def __iter__(self, random=False):
+        batch_token_ids = []
+        for is_end, (text, label) in self.sample(random):
+            token_ids, segment_ids = tokenizer.encode(text, maxlen=maxlen)
+            token_ids = token_ids[:1] + desc_ids[:4] + token_ids[:-1]
+            token_ids = token_ids + desc_ids[4:]
+            if label == 0:
+                token_ids = token_ids + [neg_id]
+            elif label == 1:
+                token_ids = token_ids + [pos_id]
+            batch_token_ids.append(token_ids)
+            if len(batch_token_ids) == self.batch_size or is_end:
+                batch_token_ids = sequence_padding(batch_token_ids)
+                '''yield是生成器的使用方法，注意yield完要清空列表'''
+                yield batch_token_ids, None
+                batch_token_ids = []
+
+class CrossEntropy(Loss):
+    """交叉熵作为loss，并mask掉padding部分"""
+    def compute_loss(self, inputs, mask=None):
+        '''将输入的元组拆分为真实标签y_true和预测标签y_pred，这里在inputs为元组或者列表的时候且长度相同的时候可以调用'''
+        y_true, y_pred = inputs
+        if mask[1] is None:
+            y_mask = 1.0
+        '''cast函数将整数mask[1]转换为浮点数 -- eg: y = K.cast(x, K.floatx())'''
+        else:
+            y_mask = K.cast(mask[1], K.floatx())[:, 1:]
+        y_true = y_true[:, 1:]  # 目标token_ids
+        y_pred = y_pred[:, :-1]  # 预测序列，错开一位
+        accuracy = keras.metrics.sparse_categorical_accuracy(y_true, y_pred)
+        accuracy = K.sum(accuracy * y_mask) / K.sum(y_mask)
+        self.add_metric(accuracy, name='accuracy')
+        loss = K.sparse_categorical_crossentropy(y_true, y_pred)
+        loss = K.sum(loss * y_mask) / K.sum(y_mask)
+        return loss
+
+class PtuningEmbedding(Embedding):
+    """新定义Embedding层，只优化部分Token"""
+    def call(self, inputs, mode='embedding'):
+        embeddings = self.embeddings
+        embeddings_sg = K.stop_gradient(embeddings)
+        mask = np.zeros((K.int_shape(embeddings)[0], 1))
+        mask[1:9] += 1  # 只优化id为1～8的token
+        '''非常巧妙的只计算前8个token的梯度值'''
+        self.embeddings = embeddings * mask + embeddings_sg * (1 - mask)
+        outputs = super(PtuningEmbedding, self).call(inputs, mode)
+        self.embeddings = embeddings
+        return outputs
+
+class PtuningBERT(BERT):
+    """替换原来的Embedding"""
+    def apply(self, inputs=None, layer=None, arguments=None, **kwargs):
+        if layer is Embedding:
+            layer = PtuningEmbedding
+        return super(PtuningBERT,
+                     self).apply(inputs, layer, arguments, **kwargs)
+``` -->
+<!-- ```python
+
+model = build_transformer_model(
+    config_path=config_path,
+    checkpoint_path=checkpoint_path,
+    model=PtuningBERT,
+    segment_vocab_size=0,  # 去掉segmeng_ids输入
+    application='lm',
+)  # 建立模型，加载权重
+
+for layer in model.layers:
+    if layer.name != 'Embedding-Token':
+        layer.trainable = False
+
+output = CrossEntropy(1)([model.input, model.output])
+
+model = keras.models.Model(model.input, output)
+model.compile(optimizer=Adam(6e-4))
+model.summary()
+
+# 转换数据集
+train_generator = data_generator(train_data, batch_size)
+valid_generator = data_generator(valid_data, batch_size)
+test_generator = data_generator(test_data, batch_size)
+
+class Evaluator(keras.callbacks.Callback):
+    def __init__(self):
+        self.best_val_acc = 0.
+
+    def on_epoch_end(self, epoch, logs=None):
+        val_acc = evaluate(valid_generator)
+        if val_acc > self.best_val_acc:
+            self.best_val_acc = val_acc
+            model.save_weights('best_model_gpt.weights')
+        test_acc = evaluate(test_generator)
+        print(
+            u'val_acc: %.5f, best_val_acc: %.5f, test_acc: %.5f\n' %
+            (val_acc, self.best_val_acc, test_acc)
+        )
+
+def evaluate(data):
+    total, right = 0., 0.
+    for x_true, _ in data:
+        y_pred = model.predict(x_true)
+        for x, y in zip(x_true, y_pred):
+            x = np.trim_zeros(x)
+            y = y[:len(x)][-2, [neg_id, pos_id]].argmax()
+            y = [neg_id, pos_id][y]
+            if y == x[-1]:
+                right += 1
+            total += 1
+    return right / total
+
+if __name__ == '__main__':
+
+    evaluator = Evaluator()
+    model.fit_generator(
+        train_generator.forfit(),
+        steps_per_epoch=len(train_generator) * 50,
+        epochs=1000,
+        callbacks=[evaluator]
+    )
+else:
+    model.load_weights('best_model_gpt.weights')
+``` -->
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2024/05/11/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-P-Tuning%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-大模型初步-P-Tuning微调技术" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/05/11/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-P-Tuning%E5%BE%AE%E8%B0%83%E6%8A%80%E6%9C%AF/">大模型初步-P-Tuning微调技术</a>
+    </h1>
+  
+
+        
+        <a href="/2024/05/11/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-P-Tuning%E5%BE%AE%E8%B0%83%E6%8A%80%E6%9C%AF/" class="archive-article-date">
   	<time datetime="2024-05-11T15:13:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-05-11</time>
 </a>
         
@@ -605,7 +797,7 @@ else:
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2024/05/11/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-P-Tuning%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/">展开全文 >></a>
+          <a class="article-more-a" href="/2024/05/11/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-P-Tuning%E5%BE%AE%E8%B0%83%E6%8A%80%E6%9C%AF/">展开全文 >></a>
         </p>
       
 
@@ -1216,147 +1408,9 @@ for _epoch, batch in tqdm(enumerate(ppo_trainer.dataloader)):
 
 
   
-    <article id="post-大模型初步-主流验证测试集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/04/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%B8%BB%E6%B5%81%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86/">大模型初步-主流验证测试集</a>
-    </h1>
-  
-
-        
-        <a href="/2024/04/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%B8%BB%E6%B5%81%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86/" class="archive-article-date">
-  	<time datetime="2024-04-20T15:00:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在看各个模型的论文的时候，我们发现会有一些评估的分数，这些评估方式或者方法值得我们简单学习一下</p>
-<ol>
-<li>BLEU<br>序列生成的评估方式</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/04/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%B8%BB%E6%B5%81%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-大模型初步-从gpt1到gpt3-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/04/18/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%BB%8Egpt1%E5%88%B0gpt3-5/">大模型初步-从gpt1到gpt3.5</a>
-    </h1>
-  
-
-        
-        <a href="/2024/04/18/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%BB%8Egpt1%E5%88%B0gpt3-5/" class="archive-article-date">
-  	<time datetime="2024-04-18T10:00:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="文章和课程"><a href="#文章和课程" class="headerlink" title="文章和课程"></a>文章和课程</h3><p>这篇知乎上的文章和李沐b站上对于gpt1-3的讲解比较类似<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/609716668">知乎链接</a>，这部分内容有transformer基础就可以看。<br>这篇文章结构和内容感觉是看得几篇文章里面比较全面的，从几个gpt模型的结构，到训练数据来源，训练方法，局限性等等角度进行解析，但是对于gpt3的内容讲解比较简略。<br>这里补充一篇gpt3的讲解文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/673906325">知乎链接</a>，我认为提到很重要的一点就是gpt3出现的上下文能力(In context learning)，解释上下文能力的论文比较复杂，笔者还未学习。</p>
-<h3 id="技术创新"><a href="#技术创新" class="headerlink" title="技术创新"></a>技术创新</h3><p>这里的进化之路中涉及很多技术细节，这里就选取我认为比较重要的部分。</p>
-<ol>
-<li>zero,one,few-shot<br>gpt2和gpt3用了这个方法，相比之下gpt1使用预训练后再针对不同任务做微调模型的方法，这样模型的泛化能力就比较差。<br>这里都是不进行任何梯度更新的，和fine-tuning基于标注数据对模型参数进行更新不同。</li>
-<li>RLHF<br>参考文章:<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/677607581">https://zhuanlan.zhihu.com/p/677607581</a><br>这篇文章从强化学习的基础开始讲起，比较详细。<br>以下就是个人认为需要关注的技术要点<blockquote>
-<p>actor-critic的网络为什么这样使用?<br>建议还是看一下王树森的《深度强化学习》。简而言之，critic网络就是为了近似动作价值函数<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="2.889ex" height="2.032ex" role="img" focusable="false" viewBox="0 -704 1277.1 898"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D444" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g><g data-mml-node="mi" transform="translate(824,-150) scale(0.707)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></g></svg></mjx-container>的。<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="2.889ex" height="2.032ex" role="img" focusable="false" viewBox="0 -704 1277.1 898"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D444" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g><g data-mml-node="mi" transform="translate(824,-150) scale(0.707)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></g></svg></mjx-container>的来源就是策略梯度定理，详细内容在书本的第七章。<br>个人强化学习相关网址:<a target="_blank" rel="noopener" href="https://kevin236-max.github.io/2024/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">强化学习入门指南</a><br>Reference Model参考模型，用KL散度衡量输出分布的相似度<br>对于优势函数的设计过程<br>可以先学习一下PPO和GAE的内容再来看这篇文章。</p>
-</blockquote>
-</li>
-<li>codex<br>参考视频:<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iY41137Zi/?spm_id_from=333.999.0.0&amp;vd_source=cd8ea6c3c8b0bf72de553b1586baad87">b站李沐</a></li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/04/18/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%BB%8Egpt1%E5%88%B0gpt3-5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 

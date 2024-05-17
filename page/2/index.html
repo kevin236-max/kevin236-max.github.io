@@ -264,6 +264,144 @@ mjx-container[display="true"] + br {
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-大模型初步-主流验证测试集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/04/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%B8%BB%E6%B5%81%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86/">大模型初步-主流验证测试集</a>
+    </h1>
+  
+
+        
+        <a href="/2024/04/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%B8%BB%E6%B5%81%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86/" class="archive-article-date">
+  	<time datetime="2024-04-20T15:00:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在看各个模型的论文的时候，我们发现会有一些评估的分数，这些评估方式或者方法值得我们简单学习一下</p>
+<ol>
+<li>BLEU<br>序列生成的评估方式</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2024/04/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%B8%BB%E6%B5%81%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-大模型初步-从gpt1到gpt3-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/04/18/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%BB%8Egpt1%E5%88%B0gpt3-5/">大模型初步-从gpt1到gpt3.5</a>
+    </h1>
+  
+
+        
+        <a href="/2024/04/18/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%BB%8Egpt1%E5%88%B0gpt3-5/" class="archive-article-date">
+  	<time datetime="2024-04-18T10:00:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="文章和课程"><a href="#文章和课程" class="headerlink" title="文章和课程"></a>文章和课程</h3><p>这篇知乎上的文章和李沐b站上对于gpt1-3的讲解比较类似<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/609716668">知乎链接</a>，这部分内容有transformer基础就可以看。<br>这篇文章结构和内容感觉是看得几篇文章里面比较全面的，从几个gpt模型的结构，到训练数据来源，训练方法，局限性等等角度进行解析，但是对于gpt3的内容讲解比较简略。<br>这里补充一篇gpt3的讲解文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/673906325">知乎链接</a>，我认为提到很重要的一点就是gpt3出现的上下文能力(In context learning)，解释上下文能力的论文比较复杂，笔者还未学习。</p>
+<h3 id="技术创新"><a href="#技术创新" class="headerlink" title="技术创新"></a>技术创新</h3><p>这里的进化之路中涉及很多技术细节，这里就选取我认为比较重要的部分。</p>
+<ol>
+<li>zero,one,few-shot<br>gpt2和gpt3用了这个方法，相比之下gpt1使用预训练后再针对不同任务做微调模型的方法，这样模型的泛化能力就比较差。<br>这里都是不进行任何梯度更新的，和fine-tuning基于标注数据对模型参数进行更新不同。</li>
+<li>RLHF<br>参考文章:<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/677607581">https://zhuanlan.zhihu.com/p/677607581</a><br>这篇文章从强化学习的基础开始讲起，比较详细。<br>以下就是个人认为需要关注的技术要点<blockquote>
+<p>actor-critic的网络为什么这样使用?<br>建议还是看一下王树森的《深度强化学习》。简而言之，critic网络就是为了近似动作价值函数<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="2.889ex" height="2.032ex" role="img" focusable="false" viewBox="0 -704 1277.1 898"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D444" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g><g data-mml-node="mi" transform="translate(824,-150) scale(0.707)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></g></svg></mjx-container>的。<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="2.889ex" height="2.032ex" role="img" focusable="false" viewBox="0 -704 1277.1 898"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D444" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g><g data-mml-node="mi" transform="translate(824,-150) scale(0.707)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></g></svg></mjx-container>的来源就是策略梯度定理，详细内容在书本的第七章。<br>个人强化学习相关网址:<a target="_blank" rel="noopener" href="https://kevin236-max.github.io/2024/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">强化学习入门指南</a><br>Reference Model参考模型，用KL散度衡量输出分布的相似度<br>对于优势函数的设计过程<br>可以先学习一下PPO和GAE的内容再来看这篇文章。</p>
+</blockquote>
+</li>
+<li>codex<br>参考视频:<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iY41137Zi/?spm_id_from=333.999.0.0&amp;vd_source=cd8ea6c3c8b0bf72de553b1586baad87">b站李沐</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2024/04/18/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%9D%E6%AD%A5-%E4%BB%8Egpt1%E5%88%B0gpt3-5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux入门-配置网络" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -842,92 +980,9 @@ mjx-container[display="true"] + br {
 
 
   
-    <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/03/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
-  
-
-        
-        <a href="/2024/03/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2024-03-12T03:44:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-03-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本来想着学期初期比较有空，正好想起来去建一个网站总结自己csai学习的过程。所以我的第一篇博客文章就是关于如何建一个简单的网站，当然域名配置的事情目前还没有整。</p>
-<p>当然在学习建之前，需要想通一个问题，为什么要建立自己的博客。于我而言的意义写在我的<a target="_blank" rel="noopener" href="https://kevin236-max.github.io/home/">个人主页</a>上了。当然，我也想过另一个问题，现在已经有强大的chatgpt4了，有什么不会的问题直接问chat不就可以了？考虑到这一点，我的个人博客就不会涉及到很多具体的知识点，而是处理一些问题优质的资料推荐。<br><!-- 每个人对此的认识和想法或许会有不同，也可能处于不同角度来做这样一件事情 --></p>
-<p>这里我建立博客完全是按照这个b站视频的步骤完成的，这个视频说得非常详细。</p>
-<pre><code>视频地址：https://www.bilibili.com/video/BV1Yb411a7ty/?spm_id_from=333.337.search-card.all.click
-</code></pre><p>然后，我们就可以基于视频中所用的模版进一步优化完善自己的界面，主要是关于_config.yml文件的修改，这里我基本上没有再查找别的资料，而是直接问chatgpt逐步完善了功能，例如：头像，评论等等。<br>这里就提一个要点，修改都要在source文件下进行修改，然后通过git bash提交上去。最开始我很傻的修改了.deploy_git，结果发现在git bash上执行hexo g命令以后没有被提交上去。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ol>
-<li>如果出现了这种报错<br>FATAL Something’s wrong. Maybe you can find the solution here: <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">https://hexo.io/docs/troubleshooting.html</a><br>Error: Spawn failed<br> at ChildProcess.<anonymous> (/Users/xiangxiangyongan/blog/node_modules/_hexo-util@1.5.0@hexo-util/lib/spawn.js:51:21)<br> at ChildProcess.emit (events.js:210:5)<br> at Process.ChildProcess._handle.onexit (internal/child_process.js:272:12)<br> <code>参考网址：https://blog.csdn.net/qq_45020818/article/details/126949337</code></li>
-<li>如果markdown上用latex的代码无法被generate<br><code>文章地址：https://blog.51cto.com/AomanHao/6185050</code><br>注意我们这里用的是yilia的主题，如果用的是其他主题，请参考其他主题对应的方法，因为不同模版主题中的_config.yml文件不同</li>
-</ol>
-<p>未完待续~~~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/03/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
