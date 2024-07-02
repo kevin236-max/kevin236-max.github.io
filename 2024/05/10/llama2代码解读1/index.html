@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>llama2代码解读1 | Hexo</title><meta name="author" content="Kevin"><meta name="copyright" content="Kevin"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="我们在之前的文章中总结了llama2涉及到的技术，作为初学者在看完方法以后依然无法实现这些想法，所以我们这里从代码入手，详细解析这些代码涉及到的语法点。 model.py12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758import m">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>llama2代码解读1 | Hexo</title><meta name="author" content="Kevin"><meta name="copyright" content="Kevin"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="我们在之前的文章中总结了llama2涉及到的技术，作为初学者在看完方法以后依然无法实现这些想法，所以我们这里从代码入手，详细解析这些代码涉及到的语法点。 model.py12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758import m">
 <meta property="og:type" content="article">
 <meta property="og:title" content="llama2代码解读1">
 <meta property="og:url" content="https://kevin236-max.github.io/2024/05/10/llama2%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB1/index.html">
@@ -130,7 +130,7 @@
       win.activateLightMode = () => {
         document.documentElement.setAttribute('data-theme', 'light')
         if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
         }
       }
       const t = saveToLocal.get('theme')
