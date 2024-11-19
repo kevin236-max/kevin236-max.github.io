@@ -1,0 +1,234 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>多模态推理合集 | Hexo</title><meta name="author" content="Kevin"><meta name="copyright" content="Kevin"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Multimodal Chain-of-Thought Reasoning in Language Models各方面实验比较完整，可以参考5和6分析与实验部分https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2302.00923.pdfcode 提出multimodel-cot范式          backbone model基座模型T-SciQ提到这里微调的cot是人工标注的 方法激发方式两种:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多模态推理合集">
+<meta property="og:url" content="https://kevin236-max.github.io/2024/11/18/%E5%A4%9A%E6%A8%A1%E6%80%81%E6%8E%A8%E7%90%86%E5%90%88%E9%9B%86/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Multimodal Chain-of-Thought Reasoning in Language Models各方面实验比较完整，可以参考5和6分析与实验部分https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2302.00923.pdfcode 提出multimodel-cot范式          backbone model基座模型T-SciQ提到这里微调的cot是人工标注的 方法激发方式两种:">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://kevin236-max.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2024-11-18T07:53:01.000Z">
+<meta property="article:modified_time" content="2024-11-18T08:45:13.614Z">
+<meta property="article:author" content="Kevin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kevin236-max.github.io/img/avatar.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="https://kevin236-max.github.io/2024/11/18/%E5%A4%9A%E6%A8%A1%E6%80%81%E6%8E%A8%E7%90%86%E5%90%88%E9%9B%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '多模态推理合集',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-18 16:45:13'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.1.1"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/background.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Hexo"><img class="site-icon" src="/img/avatar.jpg"/><span class="site-name">Hexo</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">多模态推理合集</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-11-18T07:53:01.000Z" title="Created 2024-11-18 15:53:01">2024-11-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-11-18T08:45:13.614Z" title="Updated 2024-11-18 16:45:13">2024-11-18</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word Count:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading Time:</span><span>5mins</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="多模态推理合集"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Multimodal-Chain-of-Thought-Reasoning-in-Language-Models"><a href="#Multimodal-Chain-of-Thought-Reasoning-in-Language-Models" class="headerlink" title="Multimodal Chain-of-Thought Reasoning in Language Models"></a><strong>Multimodal Chain-of-Thought Reasoning in Language Models</strong></h2><p>各方面实验比较完整，可以参考5和6分析与实验部分<br><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2302.00923.pdf">https://arxiv.org/pdf/2302.00923.pdf</a><br><a target="_blank" rel="noopener" href="https://github.com/amazon-science/mm-cot">code</a></p>
+<p>提出multimodel-cot范式          backbone model基座模型<br>T-SciQ提到这里微调的cot是人工标注的</p>
+<p><strong>方法</strong><br>激发方式两种: prompt或者finetune<br>文章中第三部分详细对比了当前的cot方法遇到的问题，并且提出用图像特征来完成(3.1)</p>
+<blockquote>
+<p>prompt   使用caption model字幕模型   图片-&gt;文字(不是图像特征)  缺点: 信息丢失，不同模态表示空间缺乏相互协同，消耗额外资源部署<br>finetune  两阶段: 生成推理原理；根据推理原理生成答案    这里是两个相同框架的独立模型  两个阶段比一个阶段更有效</p>
+</blockquote>
+<p>注意力上是language和vision进行融合(需要结合源代码阅读)</p>
+<p><strong>基准数据集</strong><br>ScienceQA, A-OKVQA   -&gt; 带有注释推理链的多模态benchmark</p>
+<p><strong>问题与疑惑</strong><br>1.Note that our approach is general to both scenarios with or without image context. For the questions without associated images, we use all-zero vectors as the “blank features” with the same shape as the normal image features to tell the model to ignore them.<br>这里没有关联的图像直接置零？</p>
+<p><strong>收获</strong><br>1.ScienceQA, A-OKVQA等可用数据集<br>2.注意力融合的方法</p>
+<h2 id="T-SciQ-Teaching-Multimodal-Chain-of-Thought-Reasoning-via-Mixed-Large-Language-Model-Signals-for-Science-Question-Answering"><a href="#T-SciQ-Teaching-Multimodal-Chain-of-Thought-Reasoning-via-Mixed-Large-Language-Model-Signals-for-Science-Question-Answering" class="headerlink" title="T-SciQ: Teaching Multimodal Chain-of-Thought Reasoning via Mixed Large Language Model Signals for Science Question Answering"></a><strong>T-SciQ: Teaching Multimodal Chain-of-Thought Reasoning via Mixed Large Language Model Signals for Science Question Answering</strong></h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.03453">https://arxiv.org/pdf/2305.03453</a><br><a target="_blank" rel="noopener" href="https://github.com/T-SciQ/T-SciQ">code</a></p>
+<p>提出T-SciQ生成高质量的cot数据<br>提出新的数据混合策略，对于困难问题有任务拆解回答的PCoT数据集，简单问题直接CoT数据集<br>推理方法与multimodel cot中提到的一样，都是两阶段推理</p>
+<p><strong>方法</strong><br>QA-CoT  对给定训练集要求 Please give me a detailed explanation<br>QA-PCoT  3步0-shot的prompt  概括主题，生成计划，生成理由<br>这两种数据混合效果在消融实验中得到了验证<br>对一个问题生成CoT和PCoT，除非PCoT错误数低于CoT，否则选用CoT数据，得到混合的训练数据集</p>
+<p><strong>问题与疑惑</strong><br>1.这里生成CoT和PCoT的基座模型是multimodel-cot？</p>
+<p><strong>收获</strong><br>1.generate cot的template<br>2.PCoT和CoT数据混合</p>
+<h2 id="Shikra-Unleashing-Multimodal-LLM’s-Referential-Dialogue-Magic"><a href="#Shikra-Unleashing-Multimodal-LLM’s-Referential-Dialogue-Magic" class="headerlink" title="Shikra: Unleashing Multimodal LLM’s Referential Dialogue Magic"></a><strong>Shikra: Unleashing Multimodal LLM’s Referential Dialogue Magic</strong></h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2306.15195">https://arxiv.org/pdf/2306.15195</a><br><a target="_blank" rel="noopener" href="https://github.com/shikras/shikra">code</a></p>
+<p>提出Shikra处理自然语言的空间坐标输入和输出，目标解决referential dialogue的问题<br>关注RD数据集</p>
+<p><strong>word</strong><br>superset ？ spatial 空间的</p>
+<p><strong>related work</strong><br>1.多模态位置相关的任务<br>task with output boxes: 输出方框指示目标位置</p>
+<blockquote>
+<p>referring expression comprehension REC 定位目标<br>described object detection 将REC扩展到对象可能不存在或可能存在多个对象的更现实的场景中<br>VQA grounding 回答视觉问题，并将答案与特定的视觉区域或对象相关联</p>
+</blockquote>
+<p>task with input boxes: 接受方框位置生成描述</p>
+<blockquote>
+<p>grounding caption GC 通过考虑周围环境来生成对该位置的描述<br>reference expression generation REG 要求生成的描述是对该区域的特征描述，而不是对其他区域的特征描述，要求描述必须具有判别性<br>PointQA 查询图片中的特定位置</p>
+</blockquote>
+<p>2.位置表达方法<br>input: 裁剪目标区域并与原始图片拼接，0/1掩码，高斯图<br>output: R-CNN, FCOS, DETR…    这里可以考虑调研一下</p>
+<p>Shikra把input和output联系了起来，提出了简单的referential dialogue<br>优势: 可完成的任务更多，泛化能力更强</p>
+<p><strong>当前MLLM的问题</strong><br>无法理解绝对空间<br>设计了2x2的chessboard任务测试LLaVA-13B，结果和随机选择的概率差不多</p>
+<p><strong>数据集</strong><br>附录A中描述<br>1.数据集VL: 做重组后的开源数据       数据处理中把测试和验证集中存在的图像去除(即使图像-文本对有区别)<br>2.数据集RD: 借助gpt4对于Flickr30K Entities生成高质量RD annotation    做RD(reference dialogue)任务</p>
+<p><strong>方法</strong><br>模型架构: 很常规的pre-trained，ViT+CLIP<br>空间表示: 用[xmin,ymin,xmax,ymax]表示边界框，[xcenter,ycenter]表示区域中心点，根据图片大小做归一化处理<br>任务: 设计了任务的prompt—&gt;详细见附录B<br>训练: 两阶段训练，先用数据集VL训练，再用LLaVA-Instruct-150K和数据集RD混合训练，这个过程中冻结视觉编码器<br>实验:<br>1.使用GCoT效果最好，也就是在CoT的过程中对每一个提到的物体生成中心坐标位置，而且<strong>使用CoT不如直接给答案</strong>，这个观点可以mark一下，和其他论文观点相似<br>2.各方面任务的测试可以注意一下</p>
+<p><strong>缺点和展望</strong><br>用数字而不是添加location token的方法 在稠密目标检测和分割任务上有困难<br>可以探索坐标表示方法</p>
+<p><strong>收获</strong><br>1.用数字表示坐标<br>2.POPE 物体幻觉检测，可以找一下对应论文<br>3.任务和数据集的对应可以参考论文中图8<br>4.任务的prompt参考论文中图9</p>
+<h2 id="Visual-CoT-Advancing-Multi-Modal-Language-Models-with-a-Comprehensive-Dataset-and-Benchmark-for-Chain-of-Thought-Reasoning"><a href="#Visual-CoT-Advancing-Multi-Modal-Language-Models-with-a-Comprehensive-Dataset-and-Benchmark-for-Chain-of-Thought-Reasoning" class="headerlink" title="Visual CoT: Advancing Multi-Modal Language Models with a Comprehensive Dataset and Benchmark for Chain-of-Thought Reasoning"></a><strong>Visual CoT: Advancing Multi-Modal Language Models with a Comprehensive Dataset and Benchmark for Chain-of-Thought Reasoning</strong></h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.16999">https://arxiv.org/pdf/2403.16999</a><br><a target="_blank" rel="noopener" href="https://github.com/deepcs233/Visual-CoT">code</a></p>
+<p>发展能够处理多轮、动态聚焦视觉输入的方法</p>
+<p><strong>related work</strong><br>常规训练方法: 先用image-caption对预训练，再用question-answer-box三元组对齐</p>
+<p><strong>数据集</strong><br>3.1描述比较信息，结合附录的处理方法一起看</p>
+<p><strong>方法</strong><br>文本用gpt-4注释，视觉用PaddleOCR注释<br>对于有可视化CoT注释的数据，先用prompt提取box(Please provide the bounding box coordinate of the region that can help you answer the question better.)<br>用visual sampler得到裁剪图片，然后整合原始图片和切割图片输入做推理<br>附录B</p>
+<p><strong>实验</strong><br>消融实验:<br>1.得到结论，使用真实标注的边界框代替模型预测产生了最高的性能，另外选择随机盒子与w/o CoT效果差不多<br>2.</p>
+<p><strong>问题与疑惑</strong><br>1.对于裁剪图片的方法表示疑惑，和图3相比，visual sampler不是裁剪为一个正方块吗<br>而且这样的扩展可以得到更好的效果，视觉token的输入是一个正方形，所以根据4-坐标得到中心位置和宽度就可以了</p>
+<h2 id="LLaVA-o1-Let-Vision-Language-Models-Reason-Step-by-Step"><a href="#LLaVA-o1-Let-Vision-Language-Models-Reason-Step-by-Step" class="headerlink" title="LLaVA-o1: Let Vision Language Models Reason Step-by-Step"></a><strong>LLaVA-o1: Let Vision Language Models Reason Step-by-Step</strong></h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2411.10440v1">https://arxiv.org/pdf/2411.10440v1</a></p>
+<p><strong>方法</strong><br>4个推理过程: summary caption reasoning conclusion<br>并且用不同的special tags包裹，模型根据需要自主选择这些标签，根据自己的判断激活每个阶段<br>数据构建: 用gpt4o蒸馏生成详细推理过程</p>
+<p>推理:<br>提出Stagelevel Beam Search，在每一个stage选择最佳选项</p>
+<p><strong>收获</strong><br>1.即将开源的LLaVa-o1-100k数据集可以看看细节<br>2.使用一些special token，完成一次性推理</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://kevin236-max.github.io">Kevin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://kevin236-max.github.io/2024/11/18/%E5%A4%9A%E6%A8%A1%E6%80%81%E6%8E%A8%E7%90%86%E5%90%88%E9%9B%86/">https://kevin236-max.github.io/2024/11/18/%E5%A4%9A%E6%A8%A1%E6%80%81%E6%8E%A8%E7%90%86%E5%90%88%E9%9B%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/11/12/%E5%8C%BB%E5%AD%A6%E5%A4%9A%E6%A8%A1%E6%80%81%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/" title="医学多模态论文合集"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next</div><div class="next_info">医学多模态论文合集</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kevin</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://kevin236-max.github.io/" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Multimodal-Chain-of-Thought-Reasoning-in-Language-Models"><span class="toc-number">1.</span> <span class="toc-text">Multimodal Chain-of-Thought Reasoning in Language Models</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T-SciQ-Teaching-Multimodal-Chain-of-Thought-Reasoning-via-Mixed-Large-Language-Model-Signals-for-Science-Question-Answering"><span class="toc-number">2.</span> <span class="toc-text">T-SciQ: Teaching Multimodal Chain-of-Thought Reasoning via Mixed Large Language Model Signals for Science Question Answering</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shikra-Unleashing-Multimodal-LLM%E2%80%99s-Referential-Dialogue-Magic"><span class="toc-number">3.</span> <span class="toc-text">Shikra: Unleashing Multimodal LLM’s Referential Dialogue Magic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Visual-CoT-Advancing-Multi-Modal-Language-Models-with-a-Comprehensive-Dataset-and-Benchmark-for-Chain-of-Thought-Reasoning"><span class="toc-number">4.</span> <span class="toc-text">Visual CoT: Advancing Multi-Modal Language Models with a Comprehensive Dataset and Benchmark for Chain-of-Thought Reasoning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LLaVA-o1-Let-Vision-Language-Models-Reason-Step-by-Step"><span class="toc-number">5.</span> <span class="toc-text">LLaVA-o1: Let Vision Language Models Reason Step-by-Step</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/18/%E5%A4%9A%E6%A8%A1%E6%80%81%E6%8E%A8%E7%90%86%E5%90%88%E9%9B%86/" title="多模态推理合集">多模态推理合集</a><time datetime="2024-11-18T07:53:01.000Z" title="Created 2024-11-18 15:53:01">2024-11-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/12/%E5%8C%BB%E5%AD%A6%E5%A4%9A%E6%A8%A1%E6%80%81%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/" title="医学多模态论文合集">医学多模态论文合集</a><time datetime="2024-11-12T09:37:06.000Z" title="Created 2024-11-12 17:37:06">2024-11-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/10/17/%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84%E4%BF%AE%E6%94%B9%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/" title="模型架构修改论文合集">模型架构修改论文合集</a><time datetime="2024-10-17T02:30:31.000Z" title="Created 2024-10-17 10:30:31">2024-10-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/10/14/flow-matching-rlhf%E9%A1%B9%E7%9B%AE%E5%8F%82%E8%80%83%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/" title="flow matching rlhf项目参考论文合集">flow matching rlhf项目参考论文合集</a><time datetime="2024-10-14T12:48:11.000Z" title="Created 2024-10-14 20:48:11">2024-10-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/10/13/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%85%A5%E9%97%A8/" title="多模态入门">多模态入门</a><time datetime="2024-10-13T04:22:09.000Z" title="Created 2024-10-13 12:22:09">2024-10-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Kevin</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
