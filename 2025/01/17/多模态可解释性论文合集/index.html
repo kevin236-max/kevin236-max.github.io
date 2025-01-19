@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>多模态可解释性论文合集 | Hexo</title><meta name="author" content="Kevin"><meta name="copyright" content="Kevin"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Language-Specific Neurons: The Key to Multilingual Capabilities in Large Language Modelshttps:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2402.16438code 提出根据language activation probability entropy来检测LLM内的语言特定神经元 之前的工作FFN模块可以存储事实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多模态可解释性论文合集">
+<meta property="og:url" content="https://kevin236-max.github.io/2025/01/17/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Language-Specific Neurons: The Key to Multilingual Capabilities in Large Language Modelshttps:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2402.16438code 提出根据language activation probability entropy来检测LLM内的语言特定神经元 之前的工作FFN模块可以存储事实">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://kevin236-max.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2025-01-17T14:27:38.000Z">
+<meta property="article:modified_time" content="2025-01-19T14:58:20.162Z">
+<meta property="article:author" content="Kevin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kevin236-max.github.io/img/avatar.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="https://kevin236-max.github.io/2025/01/17/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '多模态可解释性论文合集',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-01-19 22:58:20'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.1.1"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">30</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/background.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Hexo"><img class="site-icon" src="/img/avatar.jpg"/><span class="site-name">Hexo</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">多模态可解释性论文合集</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-01-17T14:27:38.000Z" title="Created 2025-01-17 22:27:38">2025-01-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-01-19T14:58:20.162Z" title="Updated 2025-01-19 22:58:20">2025-01-19</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word Count:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading Time:</span><span>4mins</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="多模态可解释性论文合集"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Language-Specific-Neurons-The-Key-to-Multilingual-Capabilities-in-Large-Language-Models"><a href="#Language-Specific-Neurons-The-Key-to-Multilingual-Capabilities-in-Large-Language-Models" class="headerlink" title="Language-Specific Neurons: The Key to Multilingual Capabilities in Large Language Models"></a><strong>Language-Specific Neurons: The Key to Multilingual Capabilities in Large Language Models</strong></h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.16438">https://arxiv.org/pdf/2402.16438</a><br><a target="_blank" rel="noopener" href="https://github.com/RUCAIBox/Language-Specific-Neurons">code</a></p>
+<p>提出根据language activation probability entropy来检测LLM内的语言特定神经元</p>
+<p><strong>之前的工作</strong><br>FFN模块可以存储事实知识，位置编码信息，句法触发器</p>
+<p><strong>评价指标</strong><br>几个考察方式</p>
+<ul>
+<li><p>Language activation probability entropy (LAPE)<br>对FFN的activation神经元计算该语言下激活的数学期望值，然后对期望向量(几种语言)做L1正则化，然后计算这几种语言激活概率的熵之和<br>对于低的LAPE分数作为language-specific neurons</p>
+</li>
+<li><p>Language activation probability (LAP)<br>激活概率超过95%看做language-specific</p>
+</li>
+<li><p>Language activation value entropy (LAVE)<br>用跨语言的平均激活值替换激活概率</p>
+</li>
+<li><p>Parameter variation (PV)<br>计算各种语言之间的变化率，并选择在一两个语言中表现出较低变化率的参数但在其他语言中比例很高</p>
+</li>
+<li><p>Random selection (RS)<br>每种语言随机选择神经元</p>
+</li>
+</ul>
+<p><strong>微扰实验</strong><br>考察对一种语言专有的1%神经元干扰，PPL(perplexity，困惑度)分数的改变<br>结果: 停用语言特定神经元会显着损害目标语言的生成能力</p>
+<p><strong>分析和结论</strong><br>主要分为以下几点</p>
+<ul>
+<li>计算1%(这是假设总体神经元中只有1%是有特定语言的)下的不同language-specific神经元分布，然后在0-10%的ratio下考察，从PPL数据得到结论相似语言受到的影响大</li>
+<li>语言处理聚集(激活的神经元比较多)在底层和顶层，通过计算不同语言下相同文本的mean sentence embedding similarity(经过embedding后的向量)，发现在底层需要将不同语言的对齐文本映射到共享表示空间，因此需要更多特定于语言的神经元进行语义转换；在顶层服务于token生成的同时，LLM需要处理词汇映射</li>
+<li>高资源的language-specific神经元数量少于其他语言—-language dominance measurement方法？</li>
+<li>引导llm输出的语言，促进跨语言生成。对language-specific神经元的激活值主动加到语言的平均值，有效改善脱靶问题(用一种语言提示，但生成另外一种语言的响应);关闭某种语言，激活另外一种语言，改变了预期的输出语言</li>
+</ul>
+<p><strong>疑惑</strong><br>1.这里SES实际操作怎么做呢，对于两个同样意思不同语言的话，token数不同，不太好做相似度计算吧<br>2.分析的3.3.3不太懂<br>3.LAPE分数低然后怎么判断属于哪一种language-specific呢—-先判断是否LAPE分数低，然后只有某种语言激活概率超过0.515(超过95%)，才能算</p>
+<h2 id="How-do-Large-Language-Models-Handle-Multilingualism"><a href="#How-do-Large-Language-Models-Handle-Multilingualism" class="headerlink" title="How do Large Language Models Handle Multilingualism?"></a><strong>How do Large Language Models Handle Multilingualism?</strong></h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.18815">https://arxiv.org/pdf/2402.18815</a><br><a target="_blank" rel="noopener" href="https://github.com/DAMO-NLP-SG/multilingual_analysis">code</a></p>
+<p>提出Parallel Language-specific Neuron Detection检测方法</p>
+<p><strong>PLND</strong><br>SND</p>
+<script type="math/tex; mode=display">\text{Imp}(N^{(i)} | c) = \| T_i \backslash N^{(i)}(h_i) - T_i(h_i) \|_2</script><script type="math/tex; mode=display">\{N^{(i)} | \text{Imp}(N^{(i)} | c_l) \geq \epsilon, \forall c_l \in C \}</script><p>然后对sequential neuron Detection做并行化，对比是否去掉注意力和FNN层中的特定神经元得到的L2范数</p>
+<p>结论: 停用很少的language-specific神经元会导致多语言能力崩溃，随机停用没有影响</p>
+<p><strong>MWork</strong><br>提出这样的多语言理解框架<br>这里分层根据每一层上统计的神经元激活数量来确定<br>1.LLM通过统一不同的语言特征来理解用户输入—-理解层(前几层)<br>2.进入任务解决阶段，分别使用英语进行推理并通过自注意力和前馈结构利用多语言知识—-任务解决层<br>3.模型生成与查询的原始语言一致的响应—-生成层(最后几层)</p>
+<p>分层: 理解层的全部，任务解决层中attention和FNN(这里分开因为我们倾向于认为attention是理解上下文，FNN是提取储存的知识)，生成层的全部<br>验证实验: 理解，推理，知识提取，生成<br>结论:</p>
+<ul>
+<li>前几层负责理解，因为禁用这些层中的语言特异性神经元仅使LLMs在非英语语言的自然语言理解（NLU）任务上失效。此外，禁用任务解决层的语言特异性神经元表明LLMs依赖英语，因为所有语言的表现都下降了</li>
+<li>任务解决层对于推理任务至关重要，且该层中的语言特异性神经元对不同语言的表现有显著影响，其中注意力结构在推理过程中发挥重要作用</li>
+<li>前馈结构在任务解决层中对多语言知识提取起关键作用，而自注意力结构对解决跨语言任务至关重要</li>
+<li>生成层中的语言特异性神经元对生成对应语言的内容至关重要，通过调节这些神经元可以精确地控制模型的多语言生成能力</li>
+</ul>
+<p>之后针对这些神经元进行微调</p>
+<p><strong>疑惑和想法</strong><br>1.这里的并行是把一行的神经元看成一个？<br>2.相比于前一篇论文这里还考察了注意力的神经元<br>3.停用不相关神经元是不是有时候还能提升性能？<br>4.实验中停用神经元组件的疑惑，表3和表4对比禁用了理解和生成层不太懂</p>
+<h2 id="Paying-More-Attention-to-Image-A-Training-Free-Method-for-Alleviating-Hallucination-in-LVLMs"><a href="#Paying-More-Attention-to-Image-A-Training-Free-Method-for-Alleviating-Hallucination-in-LVLMs" class="headerlink" title="Paying More Attention to Image: A Training-Free Method for Alleviating Hallucination in LVLMs"></a><strong>Paying More Attention to Image: A Training-Free Method for Alleviating Hallucination in LVLMs</strong></h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2407.21771">https://arxiv.org/pdf/2407.21771</a></p>
+<h2 id="Cross-modal-Information-Flow-in-Multimodal-Large-Language-Models"><a href="#Cross-modal-Information-Flow-in-Multimodal-Large-Language-Models" class="headerlink" title="Cross-modal Information Flow in Multimodal Large Language Models"></a><strong>Cross-modal Information Flow in Multimodal Large Language Models</strong></h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2411.18620">https://arxiv.org/pdf/2411.18620</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://kevin236-max.github.io">Kevin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://kevin236-max.github.io/2025/01/17/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/">https://kevin236-max.github.io/2025/01/17/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/01/16/%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E6%8E%A8%E7%90%86benchmark%E8%B0%83%E7%A0%94/" title="视频图像推理benchmark调研"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next</div><div class="next_info">视频图像推理benchmark调研</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kevin</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">30</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://kevin236-max.github.io/" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Language-Specific-Neurons-The-Key-to-Multilingual-Capabilities-in-Large-Language-Models"><span class="toc-number">1.</span> <span class="toc-text">Language-Specific Neurons: The Key to Multilingual Capabilities in Large Language Models</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-do-Large-Language-Models-Handle-Multilingualism"><span class="toc-number">2.</span> <span class="toc-text">How do Large Language Models Handle Multilingualism?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Paying-More-Attention-to-Image-A-Training-Free-Method-for-Alleviating-Hallucination-in-LVLMs"><span class="toc-number">3.</span> <span class="toc-text">Paying More Attention to Image: A Training-Free Method for Alleviating Hallucination in LVLMs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cross-modal-Information-Flow-in-Multimodal-Large-Language-Models"><span class="toc-number">4.</span> <span class="toc-text">Cross-modal Information Flow in Multimodal Large Language Models</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/17/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/" title="多模态可解释性论文合集">多模态可解释性论文合集</a><time datetime="2025-01-17T14:27:38.000Z" title="Created 2025-01-17 22:27:38">2025-01-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/16/%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E6%8E%A8%E7%90%86benchmark%E8%B0%83%E7%A0%94/" title="视频图像推理benchmark调研">视频图像推理benchmark调研</a><time datetime="2025-01-16T01:41:25.000Z" title="Created 2025-01-16 09:41:25">2025-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/13/%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E6%8E%A8%E7%90%86%E8%B0%83%E7%A0%94/" title="视频图像推理调研">视频图像推理调研</a><time datetime="2025-01-12T16:12:30.000Z" title="Created 2025-01-13 00:12:30">2025-01-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/10/%E6%95%B0%E5%AD%A6%E9%A2%98%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/" title="数学题推理论文合集">数学题推理论文合集</a><time datetime="2025-01-10T13:24:43.000Z" title="Created 2025-01-10 21:24:43">2025-01-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/12/16/%E5%A4%9A%E6%A8%A1%E6%80%81benchmark%E8%AE%BA%E6%96%87%E5%90%88%E9%9B%86/" title="多模态benchmark论文合集">多模态benchmark论文合集</a><time datetime="2024-12-16T08:49:52.000Z" title="Created 2024-12-16 16:49:52">2024-12-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Kevin</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
